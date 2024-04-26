@@ -4,9 +4,6 @@ using Solution = System.Collections.Generic.Dictionary<System.Numerics.Complex, 
 
 internal static class Solver
 {
-    const bool DEBUG = false;
-    const bool STEP = true;
-
     record struct ColourState(int Colour, bool Complete, Complex Head, Complex End);
     record struct Move(Complex Next, Complex Previous);
     record struct ColourMoves(int Colour, IEnumerable<Move> Moves);
@@ -42,13 +39,6 @@ internal static class Solver
         }
     }
 
-    private static void Debug(string text)
-    {
-        if (DEBUG)
-            Display.Write(text);
-    }
-
-
     private static bool HasSameColourNeighbour(this Puzzle puzzle, ISolution solution, Complex position, Complex previous, Complex end, int colour)
         => puzzle.GetNeighbours(position).Any(n => n != previous && n != end && solution.ContainsKey(n) && solution[n] == colour);
 
@@ -57,13 +47,10 @@ internal static class Solver
         var result = new List<Move>();
         foreach (var neighbour in puzzle.GetNeighbours(head))
         {
-            Debug($"{Display.GetColourDot(colour)} {head} > {neighbour}");
             if (solution.ContainsKey(neighbour))
                 continue;
             if (!puzzle.HasSameColourNeighbour(solution, neighbour, head, end, colour))
                 result.Add(new(neighbour, head));
-            else
-                Debug($"Has same colour {Display.GetColourDot(colour)} {head} {neighbour} {end}");
         }
         return result;
     }
@@ -111,18 +98,18 @@ internal static class Solver
                         case Walls.UP:
                         case Walls.DOWN:
                             if (position.HasFlag(Walls.LEFT) ^ position.HasFlag(Walls.RIGHT))
-                                result.Add(new(colour, new[] { new Move(next, previous) }));
+                                result.Add(new(colour, [new Move(next, previous)]));
                             break;
                         case Walls.LEFT:
                         case Walls.RIGHT:
                             if (position.HasFlag(Walls.UP) ^ position.HasFlag(Walls.DOWN))
-                                result.Add(new(colour, new[] { new Move(next, previous) }));
+                                result.Add(new(colour, [new Move(next, previous)]));
                             break;
+
                     }
                 }
             }
         }
-        Display.Key();
         return result.ToArray();
     }
 
@@ -155,24 +142,10 @@ internal static class Solver
         while (queue.Any())
         {
             var (currentSolution, currentColours) = queue.Dequeue();
-            if (DEBUG)
-            {
-                Debug("From >>>>>>>>");
-                puzzle.Print(currentSolution);
-            }
 
             var mandatoryMoves = false;
 
             var possibleMoves = puzzle.GetPossibleMoves(currentSolution, currentColours);
-            if (DEBUG)
-            {
-                foreach (var (colour, complete, head, end) in currentColours)
-                    Debug($"{Display.GetColourDot(colour)} {complete} {head} {end}");
-                Debug("Possible:");
-                foreach (var (colour, moves) in possibleMoves)
-                    Debug($" = {Display.GetColourDot(colour)}: {string.Join(", ", moves.Select(m => m.ToString()))}");
-                Display.Key();
-            }
 
             var mustMoves = possibleMoves.Where(p => p.Moves.Count() == 1)
                 .ToArray();
@@ -183,16 +156,8 @@ internal static class Solver
                 puzzle.MakeMove(currentSolution, currentColours, colour, moves.First());
             }
 
-            puzzle.Print(currentSolution);
             var otherMoves = possibleMoves.Except(mustMoves).ToArray();
             var corners = puzzle.GetCorners(otherMoves, currentSolution);
-            if (DEBUG)
-            {
-                Display.Write("Corners:");
-                foreach(var (colour, moves) in corners)
-                    Display.Write($"{Display.GetColourDot(colour)}: {moves.First()}");
-                Display.Key();
-            }
 
             foreach (var (colour, moves) in corners)
             {
@@ -204,38 +169,12 @@ internal static class Solver
             {
                 if (currentColours.All(c => c.Complete))
                     return currentSolution.AsReadOnly();
-                if (DEBUG)
-                {
-                    Display.Write("After manadory");
-                    puzzle.Print(currentSolution);
-                    Display.Key();
-                }
                 queue.Enqueue((currentSolution, currentColours));
                 continue;
-            } else if (DEBUG)
-            {
-                Display.Write("No more mandatory");
-                Display.Key();
-            }
-
-
-            if (DEBUG)
-            {
-                Debug("After possible >>>>>>>>>>");
-                puzzle.Print(currentSolution, false, true);
-                foreach (var (colour, complete, head, end) in currentColours)
-                    Debug($"{Display.GetColourDot(colour)} {complete} {head} {end}");
-                Display.Key();
             }
 
             if (currentColours.All(c => c.Complete))
                 return currentSolution.AsReadOnly();
-
-            if (DEBUG)
-            {
-                Debug("NO MORE MUSTS");
-                Display.Key();
-            }
 
             foreach (var (colour, complete, head, end) in currentColours)
             {
@@ -244,22 +183,10 @@ internal static class Solver
                 var pathFound = false;
                 foreach (var neighbour in puzzle.GetNeighbours(head))
                 {
-                    if (DEBUG)
-                    {
-                        Debug($"{Display.GetColourDot(colour)} {head} > {neighbour}");
-                        if (STEP)
-                            Display.Key();
-                    }
                     if ((currentSolution.ContainsKey(neighbour) && neighbour != end)
                         ||
                         puzzle.HasSameColourNeighbour(currentSolution, neighbour, head, end, colour))
-                    {
-                        Debug(string.Join(", ", currentSolution.Select(pair => $"{pair.Key}:{pair.Value}")));
-                        Debug($"{currentSolution.ContainsKey(neighbour) && neighbour != end}");
-                        Debug($"{puzzle.HasSameColourNeighbour(currentSolution, neighbour, head, end, colour)}");
                         continue;
-                    }
-                    Debug("Path found!");
 
                     pathFound = true;
                     var newSolution = currentSolution.Clone();
@@ -268,21 +195,11 @@ internal static class Solver
                     newColours[colour] = newColours[colour] with { Complete = neighbour == end };
                     if (newColours.All(c => c.Complete))
                         return newSolution.AsReadOnly();
-                    if (DEBUG)
-                    {
-                        Display.Write($"{Display.GetColourDot(colour)} Into --------------");
-                        puzzle.Print(newSolution.AsReadOnly(), false, false);
-                    }
                     queue.Enqueue((newSolution, newColours));
                 }
-                if (STEP)
-                    Display.Key();
                 if (!pathFound)
                     break;
             }
-            if (DEBUG)
-                Display.Write("---------- //// ---------");
-
         }
         throw new Exception("Solution not found");
     }
