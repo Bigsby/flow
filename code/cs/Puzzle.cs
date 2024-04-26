@@ -4,11 +4,11 @@ using System.Numerics;
 enum Walls
 {
     NONE = 0,
-    LEFT = 1 << 0,
-    UP = 1 << 1,
-    RIGHT = 1 << 2,
-    DOWN = 1 << 3,
-    BRIDGE = 1 << 4,
+    LEFT = 1 << 0, // 1
+    UP = 1 << 1, // 2
+    RIGHT = 1 << 2, // 4
+    DOWN = 1 << 3, // 8
+    BRIDGE = 1 << 4, // 16
 }
 
 record struct Puzzle(

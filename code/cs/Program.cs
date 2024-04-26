@@ -12,7 +12,7 @@ internal static class Program
             throw new ArgumentException("Please add (only) puzzle file path");
 
         var filePath = args[0];
-        var puzzle = await Parser.ReadPuzzleFile(filePath);
+        var puzzle = await Parser.ReadPuzzleJson(filePath);
         puzzle.Print();
         var solution = puzzle.Solve();
         WriteLine("Solution:");

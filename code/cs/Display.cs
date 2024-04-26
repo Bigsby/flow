@@ -42,7 +42,7 @@ internal static class Display
     public static int GetColour(this Puzzle puzzle, Complex position)
         => puzzle.Colours.IndexOf(ends => ends.Item1 == position || ends.Item2 == position);
 
-    public static void Print(this Puzzle puzzle, IDictionary<Complex, int> solution = default, bool clear = false, bool step = false)
+    public static void Print(this Puzzle puzzle, IDictionary<Complex, int>? solution = default, bool clear = false, bool step = false)
     {
         if (clear)
             Clear();
