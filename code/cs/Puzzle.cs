@@ -3,6 +3,7 @@ using System.Numerics;
 [Flags]
 enum Walls
 {
+    NONE = 0,
     LEFT = 1 << 0,
     UP = 1 << 1,
     RIGHT = 1 << 2,

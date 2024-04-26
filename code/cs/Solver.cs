@@ -4,10 +4,12 @@ using Solution = System.Collections.Generic.Dictionary<System.Numerics.Complex, 
 
 internal static class Solver
 {
-    const bool DEBUG = true;
+    const bool DEBUG = false;
     const bool STEP = true;
 
     record struct ColourState(int Colour, bool Complete, Complex Head, Complex End);
+    record struct Move(Complex Next, Complex Previous);
+    record struct ColourMoves(int Colour, IEnumerable<Move> Moves);
 
     static (Complex, Walls)[] DIRECTIONS = [
         (new Complex(-1, 0), Walls.LEFT),
@@ -15,6 +17,9 @@ internal static class Solver
         (new Complex(1, 0), Walls.RIGHT),
         (new Complex(0, 1), Walls.DOWN),
     ];
+
+    private static Walls GetDirectionWall(Complex direciton)
+        => DIRECTIONS.First(d => d.Item1 == direciton).Item2;
 
     public static Walls GetNeighbour(this Puzzle puzzle, Complex position, Complex direction)
     {
@@ -46,32 +51,32 @@ internal static class Solver
 
     private static bool HasSameColourNeighbour(this Puzzle puzzle, ISolution solution, Complex position, Complex previous, Complex end, int colour)
         => puzzle.GetNeighbours(position).Any(n => n != previous && n != end && solution.ContainsKey(n) && solution[n] == colour);
-    
-    private static IEnumerable<(Complex, Complex)> GetPossibleMoves(this Puzzle puzzle, ISolution solution, int colour, Complex head, Complex end)
+
+    private static IEnumerable<Move> GetPossibleMoves(this Puzzle puzzle, ISolution solution, int colour, Complex head, Complex end)
     {
-            var result = new List<(Complex, Complex)>();
-            foreach (var neighbour in puzzle.GetNeighbours(head))
-            {
-                Debug($"{Display.GetColourDot(colour)} {head} > {neighbour}");
-                if (solution.ContainsKey(neighbour))
-                    continue;
-                if (!puzzle.HasSameColourNeighbour(solution, neighbour, head, end, colour))
-                    result.Add((neighbour, head));
-                else
-                    Debug($"Has same colour {Display.GetColourDot(colour)} {head} {neighbour} {end}");
-            }
-            return result;
+        var result = new List<Move>();
+        foreach (var neighbour in puzzle.GetNeighbours(head))
+        {
+            Debug($"{Display.GetColourDot(colour)} {head} > {neighbour}");
+            if (solution.ContainsKey(neighbour))
+                continue;
+            if (!puzzle.HasSameColourNeighbour(solution, neighbour, head, end, colour))
+                result.Add(new(neighbour, head));
+            else
+                Debug($"Has same colour {Display.GetColourDot(colour)} {head} {neighbour} {end}");
+        }
+        return result;
     }
 
-    private static (int, IEnumerable<(Complex, Complex)>)[] GetPossibleMoves(this Puzzle puzzle, ISolution solution, IEnumerable<ColourState> colours)
+    private static ColourMoves[] GetPossibleMoves(this Puzzle puzzle, ISolution solution, IEnumerable<ColourState> colours)
     {
-        var result = new List<(int, IEnumerable<(Complex, Complex)>)>();
+        var result = new List<ColourMoves>();
         foreach (var (colour, complete, head, end) in colours)
         {
             if (complete)
                 continue;
-            result.Add((colour, puzzle.GetPossibleMoves(solution, colour, head, end)));
-            result.Add((colour, puzzle.GetPossibleMoves(solution, colour, end, head)));
+            result.Add(new(colour, puzzle.GetPossibleMoves(solution, colour, head, end)));
+            result.Add(new(colour, puzzle.GetPossibleMoves(solution, colour, end, head)));
         }
         return result.ToArray();
     }
@@ -81,6 +86,59 @@ internal static class Solver
 
     private static IList<ColourState> Clone(this IList<ColourState> list)
         => list.Select(c => c with { }).ToList();
+
+    private static Complex GetMoveDirection(Complex next, Complex previous)
+    {
+        if (next.Real == previous.Real)
+            return new Complex(0, next.Imaginary - previous.Imaginary);
+        return next.Real - previous.Real;
+    }
+
+    private static ColourMoves[] GetCorners(this Puzzle puzzle, ColourMoves[] colourMoves, ISolution solution)
+    {
+        var result = new List<ColourMoves>();
+        foreach (var (colour, moves) in colourMoves)
+        {
+            foreach (var (next, previous) in moves)
+            {
+                var direction = GetMoveDirection(next, previous);
+                var wall = GetDirectionWall(direction);
+                var position = puzzle.Positions[next];
+                if (position.HasFlag(wall))
+                {
+                    switch (wall)
+                    {
+                        case Walls.UP:
+                        case Walls.DOWN:
+                            if (position.HasFlag(Walls.LEFT) ^ position.HasFlag(Walls.RIGHT))
+                                result.Add(new(colour, new[] { new Move(next, previous) }));
+                            break;
+                        case Walls.LEFT:
+                        case Walls.RIGHT:
+                            if (position.HasFlag(Walls.UP) ^ position.HasFlag(Walls.DOWN))
+                                result.Add(new(colour, new[] { new Move(next, previous) }));
+                            break;
+                    }
+                }
+            }
+        }
+        Display.Key();
+        return result.ToArray();
+    }
+
+    private static void MakeMove(this Puzzle puzzle, ISolution currentSolution, IList<ColourState> currentColours, int colour, Move move)
+    {
+        var (next, previous) = move;
+        currentSolution[next] = colour;
+        var colourState = currentColours[colour];
+        var otherEnd = previous == colourState.Head ? colourState.End : colourState.Head;
+        currentColours[colour] = colourState with
+        {
+            Complete = next == otherEnd || puzzle.GetNeighbours(next).Any(n => n == otherEnd),
+            Head = next,
+            End = otherEnd
+        };
+    }
 
     public static IReadOnlyDictionary<Complex, int> Solve(this Puzzle puzzle)
     {
@@ -103,6 +161,8 @@ internal static class Solver
                 puzzle.Print(currentSolution);
             }
 
+            var mandatoryMoves = false;
+
             var possibleMoves = puzzle.GetPossibleMoves(currentSolution, currentColours);
             if (DEBUG)
             {
@@ -114,24 +174,50 @@ internal static class Solver
                 Display.Key();
             }
 
-            var mustMoves = possibleMoves.Where(p => p.Item2.Count() == 1).ToArray();
+            var mustMoves = possibleMoves.Where(p => p.Moves.Count() == 1)
+                .ToArray();
+
             foreach (var (colour, moves) in mustMoves)
             {
-                var (next, previous) = moves.First();
-                currentSolution[next] = colour;
-                var colourState = currentColours[colour];
-                var otherEnd = previous == colourState.Head ? colourState.End : colourState.Head;
-                currentColours[colour] = colourState with {
-                    Complete = next == otherEnd || puzzle.GetNeighbours(next).Any(n => n == otherEnd),
-                    Head = next,
-                    End = otherEnd
-                }; //(colour, puzzle.GetNeighbours(next).Any(n => n == otherEnd), next, otherEnd);
+                mandatoryMoves = true;
+                puzzle.MakeMove(currentSolution, currentColours, colour, moves.First());
             }
-            if (mustMoves.Any())
+
+            puzzle.Print(currentSolution);
+            var otherMoves = possibleMoves.Except(mustMoves).ToArray();
+            var corners = puzzle.GetCorners(otherMoves, currentSolution);
+            if (DEBUG)
             {
+                Display.Write("Corners:");
+                foreach(var (colour, moves) in corners)
+                    Display.Write($"{Display.GetColourDot(colour)}: {moves.First()}");
+                Display.Key();
+            }
+
+            foreach (var (colour, moves) in corners)
+            {
+                mandatoryMoves = true;
+                puzzle.MakeMove(currentSolution, currentColours, colour, moves.First());
+            }
+
+            if (mandatoryMoves)
+            {
+                if (currentColours.All(c => c.Complete))
+                    return currentSolution.AsReadOnly();
+                if (DEBUG)
+                {
+                    Display.Write("After manadory");
+                    puzzle.Print(currentSolution);
+                    Display.Key();
+                }
                 queue.Enqueue((currentSolution, currentColours));
                 continue;
+            } else if (DEBUG)
+            {
+                Display.Write("No more mandatory");
+                Display.Key();
             }
+
 
             if (DEBUG)
             {
