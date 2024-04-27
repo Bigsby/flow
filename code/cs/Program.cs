@@ -1,7 +1,4 @@
-﻿using System.Numerics;
-using System.Linq;
-using System.Collections.Frozen;
-using static System.Console;
+﻿using System.Collections.Frozen;
 
 internal static class Program
 {
@@ -9,13 +6,28 @@ internal static class Program
     private static async Task Main(string[] args)
     {
         if (args.Length != 1)
-            throw new ArgumentException("Please add (only) puzzle file path");
+        {
+            Display.Error("Please add (only) puzzle file path");
+            return;
+        }
 
         var filePath = args[0];
-        var puzzle = await Parser.ReadPuzzleJson(filePath);
-        puzzle.Print();
-        var solution = puzzle.Solve();
-        WriteLine("Solution:");
-        puzzle.Print(solution.ToFrozenDictionary());
+        try 
+        {
+            var puzzle = await Parser.ReadPuzzleJson(filePath);
+            puzzle.Print();
+            var solution = puzzle.Solve();
+            
+            Display.Write("Solution:");
+            puzzle.Print(solution.ToFrozenDictionary());
+        } 
+        catch (FileNotFoundException ex)
+        {
+            Display.Error(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Display.Error(ex.Message);
+        }
     }
 }

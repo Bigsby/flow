@@ -64,7 +64,7 @@ internal static class Parser
     public static async Task<Puzzle> ReadPuzzleJson(string filePath)
     {
         if (!File.Exists(filePath))
-            throw new FileNotFoundException($@"{filePath} does not exist");
+            throw new FileNotFoundException($@"'{filePath}' does not exist");
         var json = await File.ReadAllTextAsync(filePath);
         var configuration = JsonSerializer.Deserialize<PuzzleConfiguration>(
             json, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });

@@ -19,6 +19,9 @@ internal static class Display
         "\u25E6"
         :
         $"\x1b[38;5;{COLOURS[colour]}m\u25CF\x1b[0m";
+    
+    public static void Error(string message)
+        => Console.Error.WriteLine($"\x1b[38;5;196m{message}\x1b[0m");
 
     private static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> filter)
     {
@@ -83,5 +86,4 @@ internal static class Display
         if (step)
             ReadLine();
     }
-
 }
