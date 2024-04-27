@@ -147,17 +147,20 @@ internal static class Solver
 
             var possibleMoves = puzzle.GetPossibleMoves(currentSolution, currentColours);
 
-            var mustMoves = possibleMoves.Where(p => p.Moves.Count() == 1)
+            if (possibleMoves.Any(move => !move.Moves.Any() && !currentColours[move.Colour].Complete))
+                continue;
+
+            var singleMoves = possibleMoves.Where(p => p.Moves.Count() == 1)
                 .ToArray();
 
-            foreach (var (colour, moves) in mustMoves)
+            foreach (var (colour, moves) in singleMoves)
             {
                 mandatoryMoves = true;
                 puzzle.MakeMove(currentSolution, currentColours, colour, moves.First());
             }
 
-            var otherMoves = possibleMoves.Except(mustMoves).ToArray();
-            var corners = puzzle.GetCorners(otherMoves, currentSolution);
+            var multipleMoves = possibleMoves.Except(singleMoves).ToArray();
+            var corners = puzzle.GetCorners(multipleMoves, currentSolution);
 
             foreach (var (colour, moves) in corners)
             {
@@ -175,30 +178,16 @@ internal static class Solver
 
             if (currentColours.All(c => c.Complete))
                 return currentSolution.AsReadOnly();
-
-            foreach (var (colour, complete, head, end) in currentColours)
+            
+            foreach (var (colour, moves) in possibleMoves)
             {
-                if (complete)
-                    continue;
-                var pathFound = false;
-                foreach (var neighbour in puzzle.GetNeighbours(head))
+                foreach (var move in moves)
                 {
-                    if ((currentSolution.ContainsKey(neighbour) && neighbour != end)
-                        ||
-                        puzzle.HasSameColourNeighbour(currentSolution, neighbour, head, end, colour))
-                        continue;
-
-                    pathFound = true;
                     var newSolution = currentSolution.Clone();
                     var newColours = currentColours.Clone();
-                    newSolution[neighbour] = colour;
-                    newColours[colour] = newColours[colour] with { Complete = neighbour == end };
-                    if (newColours.All(c => c.Complete))
-                        return newSolution.AsReadOnly();
+                    puzzle.MakeMove(newSolution, newColours, colour, move);
                     queue.Enqueue((newSolution, newColours));
                 }
-                if (!pathFound)
-                    break;
             }
         }
         throw new Exception("Solution not found");
