@@ -1,0 +1,545 @@
+[
+    {
+        "id": "flow",
+        "name": "Flow Free",
+        "sections": [
+            {
+                "id": "01",
+                "name": "Intro",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Classic Pack",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "5x5 easy",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "6x6",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "03",
+                                "name": "7x7 - medium",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "04",
+                                "name": "8x8",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "05",
+                                "name": "9x9 - hard",
+                                "start": 1,
+                                "end": 30
+                            }
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Bonus Pack",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "5x5 easy",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "6x6",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "03",
+                                "name": "7x7 - medium",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "04",
+                                "name": "8x8",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "05",
+                                "name": "9x9 - hard",
+                                "start": 1,
+                                "end": 30
+                            }
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Green Pack",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "5x5 easy",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "6x6",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "03",
+                                "name": "7x7 - medium",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "04",
+                                "name": "8x8",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "05",
+                                "name": "9x9 - hard",
+                                "start": 1,
+                                "end": 30
+                            }
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Blue Pack",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "5x5 easy",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "6x6",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "03",
+                                "name": "7x7 - medium",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "04",
+                                "name": "8x8",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "05",
+                                "name": "9x9 - hard",
+                                "start": 1,
+                                "end": 30
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "02",
+                "name": "Manias",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "6x6 Mania",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "1 - 30",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "31 - 60",
+                                "start": 31,
+                                "end": 60
+                            },
+                            {
+                                "id": "03",
+                                "name": "61 - 90",
+                                "start": 61,
+                                "end": 90
+                            },
+                            {
+                                "id": "04",
+                                "name": "91 - 120",
+                                "start": 91,
+                                "end": 120
+                            },
+                            {
+                                "id": "05",
+                                "name": "121 - 150",
+                                "start": 121,
+                                "end": 150
+                            }
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "7x7 Mania",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "1 - 30",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "31 - 60",
+                                "start": 31,
+                                "end": 60
+                            },
+                            {
+                                "id": "03",
+                                "name": "61 - 90",
+                                "start": 61,
+                                "end": 90
+                            },
+                            {
+                                "id": "04",
+                                "name": "91 - 120",
+                                "start": 91,
+                                "end": 120
+                            },
+                            {
+                                "id": "05",
+                                "name": "121 - 150",
+                                "start": 121,
+                                "end": 150
+                            }
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "8x8 Mania",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "1 - 30",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "31 - 60",
+                                "start": 31,
+                                "end": 60
+                            },
+                            {
+                                "id": "03",
+                                "name": "61 - 90",
+                                "start": 61,
+                                "end": 90
+                            },
+                            {
+                                "id": "04",
+                                "name": "91 - 120",
+                                "start": 91,
+                                "end": 120
+                            },
+                            {
+                                "id": "05",
+                                "name": "121 - 150",
+                                "start": 121,
+                                "end": 150
+                            }
+                        ]
+                    },
+                    {
+                        "id": "01",
+                        "name": "9x9 Mania",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "1 - 30",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "31 - 60",
+                                "start": 31,
+                                "end": 60
+                            },
+                            {
+                                "id": "03",
+                                "name": "61 - 90",
+                                "start": 61,
+                                "end": 90
+                            },
+                            {
+                                "id": "04",
+                                "name": "91 - 120",
+                                "start": 91,
+                                "end": 120
+                            },
+                            {
+                                "id": "05",
+                                "name": "121 - 150",
+                                "start": 121,
+                                "end": 150
+                            }
+                        ]
+                    },
+                    {
+                        "id": "01",
+                        "name": "10x10 Mania",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "1 - 30",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "31 - 60",
+                                "start": 31,
+                                "end": 60
+                            },
+                            {
+                                "id": "03",
+                                "name": "61 - 90",
+                                "start": 61,
+                                "end": 90
+                            },
+                            {
+                                "id": "04",
+                                "name": "91 - 120",
+                                "start": 91,
+                                "end": 120
+                            },
+                            {
+                                "id": "05",
+                                "name": "121 - 150",
+                                "start": 121,
+                                "end": 150
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "03",
+                "name": "Hard Manias",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "11x11 Mania",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "1 - 30",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "31 - 60",
+                                "start": 31,
+                                "end": 60
+                            },
+                            {
+                                "id": "03",
+                                "name": "61 - 90",
+                                "start": 61,
+                                "end": 90
+                            },
+                            {
+                                "id": "04",
+                                "name": "91 - 120",
+                                "start": 91,
+                                "end": 120
+                            },
+                            {
+                                "id": "05",
+                                "name": "121 - 150",
+                                "start": 121,
+                                "end": 150
+                            }
+                        ]
+                    },
+                    {
+                        "id": "01",
+                        "name": "12x12 Mania",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "1 - 30",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "31 - 60",
+                                "start": 31,
+                                "end": 60
+                            },
+                            {
+                                "id": "03",
+                                "name": "61 - 90",
+                                "start": 61,
+                                "end": 90
+                            },
+                            {
+                                "id": "04",
+                                "name": "91 - 120",
+                                "start": 91,
+                                "end": 120
+                            },
+                            {
+                                "id": "05",
+                                "name": "121 - 150",
+                                "start": 121,
+                                "end": 150
+                            }
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "13x13 Mania",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "1 - 30",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "31 - 60",
+                                "start": 31,
+                                "end": 60
+                            },
+                            {
+                                "id": "03",
+                                "name": "61 - 90",
+                                "start": 61,
+                                "end": 90
+                            },
+                            {
+                                "id": "04",
+                                "name": "91 - 120",
+                                "start": 91,
+                                "end": 120
+                            },
+                            {
+                                "id": "05",
+                                "name": "121 - 150",
+                                "start": 121,
+                                "end": 150
+                            }
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "14x14 Mania",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "1 - 30",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "31 - 60",
+                                "start": 31,
+                                "end": 60
+                            },
+                            {
+                                "id": "03",
+                                "name": "61 - 90",
+                                "start": 61,
+                                "end": 90
+                            },
+                            {
+                                "id": "04",
+                                "name": "91 - 120",
+                                "start": 91,
+                                "end": 120
+                            },
+                            {
+                                "id": "05",
+                                "name": "121 - 150",
+                                "start": 121,
+                                "end": 150
+                            }
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "15x15 Mania",
+                        "groups": [
+                            {
+                                "id": "01",
+                                "name": "1 - 30",
+                                "start": 1,
+                                "end": 30
+                            },
+                            {
+                                "id": "02",
+                                "name": "31 - 60",
+                                "start": 31,
+                                "end": 60
+                            },
+                            {
+                                "id": "03",
+                                "name": "61 - 90",
+                                "start": 61,
+                                "end": 90
+                            },
+                            {
+                                "id": "04",
+                                "name": "91 - 120",
+                                "start": 91,
+                                "end": 120
+                            },
+                            {
+                                "id": "05",
+                                "name": "121 - 150",
+                                "start": 121,
+                                "end": 150
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "bridges",
+        "name": "Flow Free: Bridges",
+        "sections": []
+    },
+    {
+        "id": "hexes",
+        "name":"Flow Free: Hexes",
+        "sections": []
+    },
+    {
+        "id": "warps",
+        "name":"Flow Free: Warps",
+        "sections": []
+    }
+]
