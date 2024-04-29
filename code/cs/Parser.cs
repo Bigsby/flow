@@ -55,8 +55,8 @@ internal static class Parser
         }
         foreach (var colour in configuration.Colours)
             colours.Add((new Complex(colour.X1, colour.Y1), new Complex(colour.X2, colour.Y2)));
-        var maxX = (int)positions.Keys.Max(p => p.Real);
-        var maxY = (int)positions.Keys.Max(p => p.Imaginary);
+        var maxX = (int)positions.Keys.Max(p => p.Real) + 1;
+        var maxY = (int)positions.Keys.Max(p => p.Imaginary) + 1;
 
         return new Puzzle(configuration.Name ?? "", configuration.Subtitle ?? "", positions.AsReadOnly(), colours.ToArray(), maxX, maxY);
     }
