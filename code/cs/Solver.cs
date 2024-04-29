@@ -8,19 +8,19 @@ internal static class Solver
     record struct Move(Complex Next, Complex Previous);
     record struct ColourMoves(int Colour, IEnumerable<Move> Moves);
 
-    static (Complex, Walls)[] DIRECTIONS = [
+    private static (Complex, Walls)[] DIRECTIONS = [
         (new Complex(-1, 0), Walls.LEFT),
         (new Complex(0, -1), Walls.UP),
         (new Complex(1, 0), Walls.RIGHT),
         (new Complex(0, 1), Walls.DOWN),
     ];
 
-    private static Walls GetDirectionWall(Complex direciton)
-        => DIRECTIONS.First(d => d.Item1 == direciton).Item2;
+    private static Walls GetDirectionWall(Complex direction)
+        => DIRECTIONS.First(d => d.Item1 == direction).Item2;
 
     public static Walls GetNeighbour(this Puzzle puzzle, Complex position, Complex direction)
     {
-        var neighbour = position + direction;
+        var neighbour = puzzle.NormalizePosition(position + direction);
         if (puzzle.Positions.TryGetValue(neighbour, out var type))
             return type;
         return 0;
@@ -33,9 +33,8 @@ internal static class Solver
             if (puzzle.Positions[position].HasFlag(wall))
                 continue;
             var neighbour = position + direction;
-            var actualNeighbour = new Complex((neighbour.Real + puzzle.MaxX + 1) % (puzzle.MaxX + 1), (neighbour.Imaginary + puzzle.MaxY + 1) % (puzzle.MaxY + 1));
-            if (puzzle.Positions.ContainsKey(actualNeighbour))
-                yield return actualNeighbour;
+            var actualNeighbour = new Complex((neighbour.Real + puzzle.MaxX) % puzzle.MaxX, (neighbour.Imaginary + puzzle.MaxY) % puzzle.MaxY);
+            if (puzzle.Positions.ContainsKey(actualNeighbour)) yield return actualNeighbour;
         }
     }
 
@@ -74,42 +73,44 @@ internal static class Solver
     private static IList<ColourState> Clone(this IList<ColourState> list)
         => list.Select(c => c with { }).ToList();
 
-    private static Complex GetMoveDirection(Complex next, Complex previous)
-    {
-        if (next.Real == previous.Real)
-            return new Complex(0, next.Imaginary - previous.Imaginary);
-        return next.Real - previous.Real;
-    }
+    // private static Complex GetMoveDirection(Complex next, Complex previous)
+    // {
+    //     if (next.Real == previous.Real)
+    //         return new Complex(0, next.Imaginary - previous.Imaginary);
+    //     return next.Real - previous.Real;
+    // }
+
+    private static Complex GetDirection(this Move move)
+        => move.Next.Real == move.Previous.Real ?
+            new Complex(0, move.Next.Imaginary - move.Previous.Imaginary)
+            :
+            move.Next.Real - move.Previous.Real;
 
     private static ColourMoves[] GetCorners(this Puzzle puzzle, ColourMoves[] colourMoves, ISolution solution)
     {
         var result = new List<ColourMoves>();
         foreach (var (colour, moves) in colourMoves)
-        {
-            foreach (var (next, previous) in moves)
+            foreach (var move in moves)
             {
-                var direction = GetMoveDirection(next, previous);
+                var direction = move.GetDirection();
                 var wall = GetDirectionWall(direction);
-                var position = puzzle.Positions[next];
+                var position = puzzle.Positions[move.Next];
                 if (position.HasFlag(wall))
-                {
                     switch (wall)
                     {
                         case Walls.UP:
                         case Walls.DOWN:
                             if (position.HasFlag(Walls.LEFT) ^ position.HasFlag(Walls.RIGHT))
-                                result.Add(new(colour, [new Move(next, previous)]));
+                                result.Add(new(colour, [move]));
                             break;
                         case Walls.LEFT:
                         case Walls.RIGHT:
                             if (position.HasFlag(Walls.UP) ^ position.HasFlag(Walls.DOWN))
-                                result.Add(new(colour, [new Move(next, previous)]));
+                                result.Add(new(colour, [move]));
                             break;
 
                     }
-                }
             }
-        }
         return result.ToArray();
     }
 
@@ -127,8 +128,131 @@ internal static class Solver
         };
     }
 
+    public static Complex NormalizePosition(this Puzzle puzzle, Complex position)
+        => new Complex((position.Real + puzzle.MaxX) % puzzle.MaxX, (position.Imaginary + puzzle.MaxY) % puzzle.MaxY);
+
+    private static int GetDistanceToSameColour(this Puzzle puzzle, ISolution solution, int colour, Complex position, Complex direction)
+    {
+        var distance = 0;
+        while (true)
+        {
+            if (puzzle.Positions[position].HasFlag(GetDirectionWall(direction)))
+                return -1;
+            position = puzzle.NormalizePosition(position + direction);
+            if (!puzzle.Positions.ContainsKey(position))
+                return -1;
+            distance++;
+            if (solution.ContainsKey(position))
+            {
+                if (solution[position] == colour)
+                    return distance;
+                return -1;
+            }
+        }
+    }
+
+    private static Walls InverseWall(this Walls wall)
+        => wall switch
+        {
+            Walls.DOWN => Walls.UP,
+            Walls.UP => Walls.DOWN,
+            Walls.LEFT => Walls.RIGHT,
+            Walls.RIGHT => Walls.LEFT,
+            _ => Walls.NONE
+        };
+
+    private static readonly IReadOnlyDictionary<Complex, Complex[]> UTURNDIRECTIONS = new Dictionary<Complex, Complex[]>
+    {
+        { Complex.One, [Complex.ImaginaryOne, -Complex.ImaginaryOne] },
+        { -Complex.One, [Complex.ImaginaryOne, -Complex.ImaginaryOne] },
+        { Complex.ImaginaryOne, [Complex.One, -Complex.One] },
+        { -Complex.ImaginaryOne, [Complex.One, -Complex.One] },
+    };
+
+    private static int GetDistanceToWall(this Puzzle puzzle, ISolution solution, Complex position, Complex direction)
+    {
+        var distance = 0;
+        while (true)
+        {
+            if (puzzle.Positions[position].HasFlag(GetDirectionWall(direction)))
+                return distance;
+            position = puzzle.NormalizePosition(position + direction);
+            distance++;
+            if (solution.ContainsKey(position))
+                return -1;
+        }
+    }
+
+    private static bool CreatesDeadEnd(this Puzzle puzzle, ISolution solution, Move move)
+    {
+        var direction = move.GetDirection();
+        var directionWall = GetDirectionWall(direction);
+        if (!puzzle.Positions[move.Next].HasFlag(directionWall))
+            return false;
+
+        foreach (var otherDirection in UTURNDIRECTIONS[direction])
+        {
+            var distance = puzzle.GetDistanceToWall(solution, move.Next, otherDirection);
+            switch (distance)
+            {
+                case 0:
+                    return false;
+                case 1:
+                    var nextPosition = puzzle.NormalizePosition(move.Next + otherDirection);
+                    if (puzzle.Positions.TryGetValue(nextPosition, out var wall) && wall.HasFlag(directionWall))
+                        return true;
+                    break;
+            }
+        }
+        return false;
+    }
+
+    private static bool CreatesUTurn(this Puzzle puzzle, ISolution solution, int colour, Move move)
+    {
+        var direction = move.GetDirection();
+        foreach (var otherDirection in UTURNDIRECTIONS[direction])
+        {
+            var diagonal = puzzle.NormalizePosition(move.Next - direction + otherDirection);
+            if (solution.TryGetValue(diagonal, out int value) && value != colour)
+                continue;
+            var distance = puzzle.GetDistanceToSameColour(solution, colour, move.Next, otherDirection);
+            switch (distance)
+            {
+                case -1:
+                    continue;
+                case 1:
+                    return true;
+                case 2:
+                    var positionsToCheck = new[]
+                    {
+                        puzzle.NormalizePosition(move.Next - direction + otherDirection),
+                        puzzle.NormalizePosition(move.Next - direction + otherDirection * 2)
+                    };
+                    if (positionsToCheck.All(position => solution.TryGetValue(position, out var value) && value == colour))
+                        return true;
+                    break;
+                case 3:
+                    var thisSide = puzzle.NormalizePosition(move.Next - direction + otherDirection);
+                    var otherSide = puzzle.NormalizePosition(thisSide + otherDirection);
+                    var hitWall = GetDirectionWall(otherDirection);
+                    if (puzzle.Positions.TryGetValue(thisSide, out var thisWall) && !thisWall.HasFlag(hitWall)
+                        && 
+                        puzzle.Positions.TryGetValue(otherSide, out var otherWall) && !otherWall.HasFlag(hitWall.InverseWall()))
+                        return true;
+                    break;
+                case 4:
+                    var apex = puzzle.NormalizePosition(move.Next + direction + otherDirection * 2);
+                    if (!solution.ContainsKey(apex))
+                        return true;
+                    break;
+            }
+        }
+        return false;
+    }
+
     public static IReadOnlyDictionary<Complex, int> Solve(this Puzzle puzzle)
     {
+        Display.Clear();
         var initialSolution = new Solution();
         var initialColours = new List<ColourState>();
         foreach (var (start, end, colour) in puzzle.Colours.Select((c, i) => (c.Item1, c.Item2, i)))
@@ -137,11 +261,13 @@ internal static class Solver
             initialSolution[end] = colour;
             initialColours.Add(new(colour, false, start, end));
         }
-        var queue = new Queue<(ISolution, IList<ColourState>)>();
-        queue.Enqueue((initialSolution, initialColours));
+        var queue = new Stack<(ISolution, IList<ColourState>, (int, Complex)[])>();
+        queue.Push((initialSolution, initialColours, []));
         while (queue.Any())
         {
-            var (currentSolution, currentColours) = queue.Dequeue();
+            var (currentSolution, currentColours, currentRejects) = queue.Pop();
+            Display.GoToTop();
+            puzzle.Print(currentSolution);
 
             var mandatoryMoves = false;
 
@@ -172,21 +298,45 @@ internal static class Solver
             {
                 if (currentColours.All(c => c.Complete))
                     return currentSolution.AsReadOnly();
-                queue.Enqueue((currentSolution, currentColours));
+                queue.Push((currentSolution, currentColours, currentRejects));
                 continue;
             }
 
             if (currentColours.All(c => c.Complete))
                 return currentSolution.AsReadOnly();
-            
+
             foreach (var (colour, moves) in possibleMoves)
             {
                 foreach (var move in moves)
                 {
+                    if (currentRejects.Contains((colour, move.Next)))
+                        continue;
                     var newSolution = currentSolution.Clone();
                     var newColours = currentColours.Clone();
+                    var newRejects = currentRejects.Select(r => r).ToList();
                     puzzle.MakeMove(newSolution, newColours, colour, move);
-                    queue.Enqueue((newSolution, newColours));
+                    if (puzzle.CreatesUTurn(newSolution, colour, move))
+                    {
+                        newRejects.Add((colour, move.Next));
+                        // Display.Error("UTURN >>>>>>>>>>>>");
+                        // puzzle.Print(newSolution, move.Next);
+                        // Display.Key();
+                        continue;
+                    }
+                    if (puzzle.CreatesDeadEnd(newSolution, move))
+                    {
+                        newRejects.Add((colour, move.Next));
+                        // Display.Error("DEAD END >>>>>>>>>>>>");
+                        // puzzle.Print(newSolution, move.Next);
+                        // Display.Key();
+                        continue;
+                    }
+                    queue.Push((newSolution, newColours, newRejects.ToArray()));
+            // Display.GoToTop();
+            // puzzle.Print(currentSolution);
+            //         Display.Print("New ++++++++++++++++");
+            //         puzzle.Print(newSolution, move.Next);
+            //         Display.Key();
                 }
             }
         }
