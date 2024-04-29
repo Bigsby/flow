@@ -39,6 +39,23 @@ internal static class Parser
         return result;
     }
 
+    private static JsonSerializerOptions _jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
+    private async static Task<T?> ParseJsonFile<T>(string filePath)
+    {
+        if (!File.Exists(filePath))
+            throw new FileNotFoundException($@"'{filePath}' does not exist");
+        var json = await File.ReadAllTextAsync(filePath);
+        return JsonSerializer.Deserialize<T>(
+            json, _jsonOptions);
+    }
+
+    public static async Task<Game[]?> GetGamesData(string filePath)
+    {
+        var data = await ParseJsonFile<Game[]>(filePath);
+        return data;
+    }
+
     private static Puzzle FromConfiguration(PuzzleConfiguration? configuration)
     {
         if (null == configuration)
@@ -63,11 +80,7 @@ internal static class Parser
 
     public static async Task<Puzzle> ReadPuzzleJson(string filePath)
     {
-        if (!File.Exists(filePath))
-            throw new FileNotFoundException($@"'{filePath}' does not exist");
-        var json = await File.ReadAllTextAsync(filePath);
-        var configuration = JsonSerializer.Deserialize<PuzzleConfiguration>(
-            json, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+        var configuration = await ParseJsonFile<PuzzleConfiguration>(filePath);
         return FromConfiguration(configuration);
     }
 
