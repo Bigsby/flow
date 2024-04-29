@@ -5,16 +5,27 @@ internal static class Program
 
     private static async Task Main(string[] args)
     {
+        if (args.Length == 2 && args[0] == "-d")
+        {
+            var data = await Parser.GetGamesData(args[1]);
+            if (null == data)
+            {
+                Display.Error("Unable to read data");
+                return;
+            }
+            await Menu.SelectGame(data);
+            return;
+        }
         if (args.Length != 1)
         {
             Display.Error("Please add (only) puzzle file path");
             return;
         }
 
-        var filePath = args[0];
+        var input = args[0];
         try 
         {
-            var puzzle = await Parser.ReadPuzzleJson(filePath);
+            var puzzle = await Parser.ReadPuzzleJson(input);
             puzzle.Print();
             var solution = puzzle.Solve();
             

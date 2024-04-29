@@ -1,16 +1,24 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 using static System.Console;
 
 internal static class Display
 {
+    private static Complex UPLEFT = new Complex(-.5, -.5);
+    private static Complex UPRIGHT = new Complex(.5, -.5);
+    private static Complex DOWNLEFT = new Complex(-.5, .5);
+    private static Complex DOWNRIGHT = new Complex(.5, .5);
+    private static Complex LEFT = new Complex(-.5, 0);
+    private static Complex RIGHT = new Complex(.5, 0);
+    private static Complex UP = new Complex(0, -.5);
+    private static Complex DOWN = new Complex(0, .5);
+
     private static (Complex, Walls)[] VERTICAL = [
-        (new Complex(.5, 0), Walls.LEFT),
-        (new Complex(-.5, 0), Walls.RIGHT)];
+        (RIGHT, Walls.LEFT),
+        (LEFT, Walls.RIGHT)];
 
     private static (Complex, Walls)[] HORIZONTAL = [
-        (new Complex(0, .5), Walls.UP),
-        (new Complex(0, -.5), Walls.DOWN)
+        (DOWN, Walls.UP),
+        (UP, Walls.DOWN)
     ];
 
     static int[] COLOURS = [196, 21, 28, 226, 208, 51, 206, 88, 90];
@@ -36,7 +44,7 @@ internal static class Display
     public static void GoToTop()
         => Write("\x1b[0;0H");
 
-    public static void Print(string text)
+    public static void Print(string text = "")
         => WriteLine(text);
 
     public static void Key()
@@ -83,6 +91,7 @@ internal static class Display
     private static bool HasPosition(this Puzzle puzzle, Complex position)
         => puzzle.Positions.ContainsKey(position);
 
+
     public static void Print(this Puzzle puzzle, IDictionary<Complex, int>? solution = default, Complex? move = default)
     {
         Print($"{puzzle.Name} {puzzle.SubTitle} {puzzle.MaxX} {puzzle.MaxY}");
@@ -106,19 +115,19 @@ internal static class Display
                 {
                     if (x % 2 == 0 && y % 2 == 0)
                     {
-                        var hasLeft = puzzle.HasWall(position + new Complex(-.5, .5), Walls.UP) || puzzle.HasWall(position + new Complex(-.5, -.5), Walls.DOWN);
-                        var hasRight = puzzle.HasWall(position + new Complex(.5, .5), Walls.UP) || puzzle.HasWall(position + new Complex(.5, -.5), Walls.DOWN);
-                        var hasUp = puzzle.HasWall(position + new Complex(-.5, -.5), Walls.RIGHT) || puzzle.HasWall(position + new Complex(.5, -.5), Walls.LEFT);
-                        var hasDown = puzzle.HasWall(position + new Complex(-.5, .5), Walls.RIGHT) || puzzle.HasWall(position + new Complex(.5, .5), Walls.LEFT);
+                        var hasLeft = puzzle.HasWall(position + DOWNLEFT, Walls.UP) || puzzle.HasWall(position + UPLEFT, Walls.DOWN);
+                        var hasRight = puzzle.HasWall(position + DOWNRIGHT, Walls.UP) || puzzle.HasWall(position + UPRIGHT, Walls.DOWN);
+                        var hasUp = puzzle.HasWall(position + UPLEFT, Walls.RIGHT) || puzzle.HasWall(position + UPRIGHT, Walls.LEFT);
+                        var hasDown = puzzle.HasWall(position + DOWNLEFT, Walls.RIGHT) || puzzle.HasWall(position + DOWNRIGHT, Walls.LEFT);
                         var lines = 
                             (hasLeft ? 1 : 0) * (int)Walls.LEFT + 
                             (hasRight ? 1 : 0) * (int)Walls.RIGHT + 
                             (hasUp ? 1 : 0) * (int)Walls.UP + 
                             (hasDown ? 1 : 0) * (int)Walls.DOWN;
                         c = $"{BORDERS[(Walls)lines]}";
-                        if (hasLeft && (puzzle.HasPosition(position + new Complex(.5, -.5)) ^ puzzle.HasPosition(position + new Complex(.5, .5))))
+                        if (hasLeft && (puzzle.HasPosition(position + UPRIGHT) ^ puzzle.HasPosition(position + DOWNRIGHT)))
                             padding = "\u2500";
-                        if (hasRight && (puzzle.HasPosition(position + new Complex(.5, -.5)) || puzzle.HasPosition(position + new Complex(.5, .5))))
+                        if (hasRight && (puzzle.HasPosition(position + UPRIGHT) || puzzle.HasPosition(position + DOWNRIGHT)))
                             padding = "\u2500";
                     }
                     if (y % 2 == 1)
@@ -136,12 +145,12 @@ internal static class Display
                             }
                     if (c == " " && null != solution)
                     {
-                        if (solution.TryGetValue(puzzle.NormalizePosition(position + new Complex(-.5, 0)), out var left)
-                            && solution.TryGetValue(puzzle.NormalizePosition(position + new Complex(.5, 0)), out var right)
+                        if (solution.TryGetValue(puzzle.NormalizePosition(position + LEFT), out var left)
+                            && solution.TryGetValue(puzzle.NormalizePosition(position + RIGHT), out var right)
                             && left == right)
                             c = GetColourRectangle(left, false);
-                        if (solution.TryGetValue(puzzle.NormalizePosition(position + new Complex(0, -.5)), out var up)
-                            && solution.TryGetValue(puzzle.NormalizePosition(position + new Complex(0, .5)), out var down)
+                        if (solution.TryGetValue(puzzle.NormalizePosition(position + UP), out var up)
+                            && solution.TryGetValue(puzzle.NormalizePosition(position + DOWN), out var down)
                             && up == down)
                             c = GetColourRectangle(up, true);
                     }
@@ -149,6 +158,45 @@ internal static class Display
                 Write($"{c}{padding}");
             }
             WriteLine();
+        }
+    }
+
+    public static string SelectItem(string header, IdNameRecord[] list)
+    {
+        Console.Clear();
+        ListObjects(header, list);
+        Print();
+        while (true)
+        {
+            Write("Select option: ");
+            var input = ReadLine();
+            if (input == "b" || input == "q")
+                return input;
+            input = input?.PadLeft(2, '0');
+            var selectedItem = list.FirstOrDefault(i => i.Id == input);
+            if (null != selectedItem)
+                return selectedItem.Id;
+            Error($"Item not found with Id: '{input}'");
+        }
+    }
+
+    public static void ListObjects(string header, IdNameRecord[] list)
+    {
+        Print($"{header}: ");
+        foreach (var item in list)
+            Print($"{item.Id}: {item.Name}");
+    }
+
+    public static string GetPuzzleId(string header, int start, int end)
+    {
+        Print($"{header} ({start}-{end})");
+        while (true)
+        {
+            Write("Select puzzle: ");
+            var input = ReadLine();
+            if (int.TryParse(input, out var id) && id >= start && id <= end)
+                return input?.PadLeft(3, '0') ?? "";
+            Error($"'{input}' not valid");
         }
     }
 }

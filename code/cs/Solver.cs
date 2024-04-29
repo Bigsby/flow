@@ -252,7 +252,6 @@ internal static class Solver
 
     public static IReadOnlyDictionary<Complex, int> Solve(this Puzzle puzzle)
     {
-        Display.Clear();
         var initialSolution = new Solution();
         var initialColours = new List<ColourState>();
         foreach (var (start, end, colour) in puzzle.Colours.Select((c, i) => (c.Item1, c.Item2, i)))
@@ -266,8 +265,6 @@ internal static class Solver
         while (queue.Any())
         {
             var (currentSolution, currentColours, currentRejects) = queue.Pop();
-            Display.GoToTop();
-            puzzle.Print(currentSolution);
 
             var mandatoryMoves = false;
 
