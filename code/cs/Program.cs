@@ -18,7 +18,7 @@ internal static class Program
             puzzle.Print();
             var solution = puzzle.Solve();
             
-            Display.Write("Solution:");
+            Display.Print("Solution:");
             puzzle.Print(solution.ToFrozenDictionary());
         } 
         catch (FileNotFoundException ex)
@@ -28,6 +28,7 @@ internal static class Program
         catch (Exception ex)
         {
             Display.Error(ex.Message);
+            Display.Print(ex.StackTrace ?? "");
         }
     }
 }
