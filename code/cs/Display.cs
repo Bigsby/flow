@@ -21,13 +21,13 @@ internal static class Display
         (UP, Walls.DOWN)
     ];
 
-    static int[] COLOURS = [196, 21, 28, 226, 208, 51, 206, 88, 90];
+    static int[] COLOURS = [196, 21, 28, 226, 208, 51, 206, 88, 90, 255];
 
     public static string GetColourDot(int colour, bool highlight = false)
         => colour == -1 ?
         "\u25E6"
         :
-        $"\x1b[38;5;{COLOURS[colour]}m{(highlight ? "\x1b[48;5;47m" : "")}\u25CF\x1b[0m";
+        $"\x1b[1m\x1b[38;5;{COLOURS[colour]}m{(highlight ? "\x1b[48;5;47m" : "")}\u25CF\x1b[0m";
     
     private static string GetColourRectangle(int colour, bool vertical)
         => colour == -1 ?
