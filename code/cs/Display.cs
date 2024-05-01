@@ -125,9 +125,9 @@ internal static class Display
                             (hasUp ? 1 : 0) * (int)Walls.UP + 
                             (hasDown ? 1 : 0) * (int)Walls.DOWN;
                         c = $"{BORDERS[(Walls)lines]}";
-                        if (hasLeft && (puzzle.HasPosition(position + UPRIGHT) ^ puzzle.HasPosition(position + DOWNRIGHT)))
-                            padding = "\u2500";
-                        if (hasRight && (puzzle.HasPosition(position + UPRIGHT) || puzzle.HasPosition(position + DOWNRIGHT)))
+                        // if (hasLeft && (puzzle.HasPosition(position + UPRIGHT) ^ puzzle.HasPosition(position + DOWNRIGHT)))
+                        //     padding = " ";
+                        if (hasRight && (puzzle.HasPosition(position + UPRIGHT) ^ puzzle.HasPosition(position + DOWNRIGHT)))
                             padding = "\u2500";
                     }
                     if (y % 2 == 1)
