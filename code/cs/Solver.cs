@@ -241,7 +241,7 @@ internal static class Solver
     }
 
     private static bool IsSolved(this Puzzle puzzle, ISolution solution, IEnumerable<ColourState> colours)
-        => colours.All(c => c.Complete) && puzzle.Positions.All(p => solution.ContainsKey(p.Key));
+        =>  puzzle.Positions.Keys.All(solution.ContainsKey) && colours.All(c => c.Complete);
 
     public static IReadOnlyDictionary<Complex, int> Solve(this Puzzle puzzle)
     {
@@ -259,8 +259,6 @@ internal static class Solver
         {
             var (currentSolution, currentColours, currentRejects) = queue.Pop();
 
-            var mandatoryMoves = false;
-
             var possibleMoves = puzzle.GetPossibleMoves(currentSolution, currentColours);
 
             if (possibleMoves.Any(move => !move.Moves.Any() && !currentColours[move.Colour].Complete))
@@ -269,9 +267,11 @@ internal static class Solver
             var singleMoves = possibleMoves.Where(p => p.Moves.Count() == 1)
                 .ToArray();
 
+            var mandatoryMovesMade = false;
+
             foreach (var (colour, moves) in singleMoves)
             {
-                mandatoryMoves = true;
+                mandatoryMovesMade = true;
                 puzzle.MakeMove(currentSolution, currentColours, colour, moves.First());
             }
 
@@ -280,14 +280,15 @@ internal static class Solver
 
             foreach (var (colour, moves) in corners)
             {
-                mandatoryMoves = true;
+                mandatoryMovesMade = true;
                 puzzle.MakeMove(currentSolution, currentColours, colour, moves.First());
             }
 
-            if (mandatoryMoves)
+            if (puzzle.IsSolved(currentSolution, currentColours))
+                return currentSolution.AsReadOnly();
+
+            if (mandatoryMovesMade)
             {
-                if (currentColours.All(c => c.Complete))
-                    return currentSolution.AsReadOnly();
                 queue.Push((currentSolution, currentColours, currentRejects));
                 continue;
             }
