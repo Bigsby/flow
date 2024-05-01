@@ -240,6 +240,9 @@ internal static class Solver
         return false;
     }
 
+    private static bool IsSolved(this Puzzle puzzle, ISolution solution, IEnumerable<ColourState> colours)
+        => colours.All(c => c.Complete) && puzzle.Positions.All(p => solution.ContainsKey(p.Key));
+
     public static IReadOnlyDictionary<Complex, int> Solve(this Puzzle puzzle)
     {
         var initialSolution = new Solution();
@@ -289,7 +292,7 @@ internal static class Solver
                 continue;
             }
 
-            if (currentColours.All(c => c.Complete))
+            if (puzzle.IsSolved(currentSolution, currentColours))
                 return currentSolution.AsReadOnly();
 
             foreach (var (colour, moves) in possibleMoves)
@@ -305,25 +308,14 @@ internal static class Solver
                     if (puzzle.CreatesUTurn(newSolution, colour, move))
                     {
                         newRejects.Add((colour, move.Next));
-                        // Display.Error("UTURN >>>>>>>>>>>>");
-                        // puzzle.Print(newSolution, move.Next);
-                        // Display.Key();
                         continue;
                     }
                     if (puzzle.CreatesDeadEnd(newSolution, move))
                     {
                         newRejects.Add((colour, move.Next));
-                        // Display.Error("DEAD END >>>>>>>>>>>>");
-                        // puzzle.Print(newSolution, move.Next);
-                        // Display.Key();
                         continue;
                     }
                     queue.Push((newSolution, newColours, newRejects.ToArray()));
-                    // Display.GoToTop();
-                    // puzzle.Print(currentSolution);
-                    //         Display.Print("New ++++++++++++++++");
-                    //         puzzle.Print(newSolution, move.Next);
-                    //         Display.Key();
                 }
             }
         }
