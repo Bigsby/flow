@@ -15,6 +15,7 @@ internal static class Program
                 return;
             }
             await Menu.SelectGame(data);
+            Console.CursorVisible = true;
             return;
         }
         if (args.Length != 1)
