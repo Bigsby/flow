@@ -28,19 +28,19 @@ internal static class Menu
                         var puzzleId = Display.SelectPuzzleId(header(), group.Start, group.End);
                         while (puzzleId != -1)
                         {
-                            var puzzleFileName = puzzleId.ToString().PadLeft(3, '0');
-                            var filePath = Path.Combine(
-                            Directory.GetCurrentDirectory(),
-                                "puzzles",
-                                game.Id,
-                                section.DirectoryName(),
-                                pack.DirectoryName(),
-                                group.DirectoryName(),
-                                $"{puzzleFileName}.json");
-                            var puzzle = await Parser.ReadPuzzleJson(filePath);
-                            puzzle.Print();
                             try 
                             {
+                                var puzzleFileName = puzzleId.ToString().PadLeft(3, '0');
+                                var filePath = Path.Combine(
+                                    Directory.GetCurrentDirectory(),
+                                        "puzzles",
+                                        game.Id,
+                                        section.DirectoryName(),
+                                        pack.DirectoryName(),
+                                        group.DirectoryName(),
+                                        $"{puzzleFileName}.json");
+                                var puzzle = await Parser.ReadPuzzleJson(filePath);
+                                puzzle.Print();
                                 var solution = puzzle.Solve();
                                 puzzle.Print(solution.ToFrozenDictionary());
                             }
