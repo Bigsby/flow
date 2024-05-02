@@ -1,6 +1,5 @@
 using System.Numerics;
 using ISolution = System.Collections.Generic.IDictionary<System.Numerics.Complex, int>;
-using Solution = System.Collections.Generic.Dictionary<System.Numerics.Complex, int>;
 
 internal static class Solver
 {
@@ -251,7 +250,7 @@ internal static class Solver
 
     public static IReadOnlyDictionary<Complex, int> Solve(this Puzzle puzzle)
     {
-        var initialSolution = new Solution();
+        var initialSolution = new Dictionary<Complex, int>();
         var initialColours = new List<ColourState>();
         foreach (var (start, end, colour) in puzzle.Colours.Select((c, i) => (c.Item1, c.Item2, i)))
         {
