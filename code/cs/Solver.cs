@@ -240,6 +240,12 @@ internal static class Solver
         return false;
     }
 
+    private static bool CreatesImpossibleState(this Puzzle puzzle, ISolution solution, int colour, Move move)
+        =>
+            puzzle.CreatesUTurn(solution, colour, move)
+            ||
+            puzzle.CreatesDeadEnd(solution, move);
+
     private static bool IsSolved(this Puzzle puzzle, ISolution solution, IEnumerable<ColourState> colours)
         =>  puzzle.Positions.Keys.All(solution.ContainsKey) && colours.All(c => c.Complete);
 
@@ -293,9 +299,6 @@ internal static class Solver
                 continue;
             }
 
-            if (puzzle.IsSolved(currentSolution, currentColours))
-                return currentSolution.AsReadOnly();
-
             foreach (var (colour, moves) in possibleMoves)
             {
                 foreach (var move in moves)
@@ -306,17 +309,14 @@ internal static class Solver
                     var newColours = currentColours.Clone();
                     var newRejects = currentRejects.Select(r => r).ToList();
                     puzzle.MakeMove(newSolution, newColours, colour, move);
-                    if (puzzle.CreatesUTurn(newSolution, colour, move))
-                    {
-                        newRejects.Add((colour, move.Next));
-                        continue;
-                    }
-                    if (puzzle.CreatesDeadEnd(newSolution, move))
+                    if (puzzle.CreatesImpossibleState(newSolution, colour, move))
                     {
                         newRejects.Add((colour, move.Next));
                         continue;
                     }
                     queue.Push((newSolution, newColours, newRejects.ToArray()));
+                    // puzzle.Print(newSolution, move.Next);
+                    // Display.Key();
                 }
             }
         }
