@@ -5,6 +5,7 @@ internal static class Program
 
     private static async Task Main(string[] args)
     {
+        Console.CursorVisible = false;
         if (args.Length == 2 && args[0] == "-d")
         {
             var data = await Parser.GetGamesData(args[1]);
@@ -41,5 +42,6 @@ internal static class Program
             Display.Error(ex.Message);
             Display.Print(ex.StackTrace ?? "");
         }
+        Console.CursorVisible = true;
     }
 }

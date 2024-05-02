@@ -8,40 +8,67 @@ internal static class Menu
     public static async Task SelectGame(Game[] games)
     {
         var game = SelectItem("Games", games);
-        if (null == game)
-            return;
-        var header = $"{game.Name}";
-        var section = SelectItem(header, game.Sections);
-        if (null == section)
-            return;
-        header += $" > {section.Name}";
-        var pack = SelectItem(header, section.Packs);
-        if (null == pack)
-            return;
-        header += $" > {pack.Name}";
-        var group = SelectItem(header, pack.Groups);
-        if (null == group)
-            return;
-        header += $" > {group.Name}";
-        var puzzleId = Display.GetPuzzleId(header, group.Start, group.End);
-        var filePath = Path.Combine(
-            Directory.GetCurrentDirectory(), 
-            "puzzles",
-            game.Id, 
-            section.DirectoryName(), 
-            pack.DirectoryName(), 
-            group.DirectoryName(), 
-            $"{puzzleId}.json");
-        var puzzle = await Parser.ReadPuzzleJson(filePath);
-        puzzle.Print();
-        var solution = puzzle.Solve();
-        puzzle.Print(solution.ToFrozenDictionary());
+        var headerItems = new Stack<string>();
+        var header = () => string.Join(" > ", headerItems.Reverse());
+        while (null != game)
+        {
+            headerItems.Push(game.Name);
+            var section = SelectItem(header(), game.Sections);
+            while (null != section)
+            {
+                headerItems.Push(section.Name);
+                var pack = SelectItem(header(), section.Packs);
+                while (null != pack)
+                {
+                    headerItems.Push(pack.Name);
+                    var group = SelectItem(header(), pack.Groups);
+                    while (null != group)
+                    {
+                        headerItems.Push(group.Name);
+                        var puzzleId = Display.SelectPuzzleId(header(), group.Start, group.End);
+                        while (puzzleId != -1)
+                        {
+                            var puzzleFileName = puzzleId.ToString().PadLeft(3, '0');
+                            var filePath = Path.Combine(
+                            Directory.GetCurrentDirectory(),
+                                "puzzles",
+                                game.Id,
+                                section.DirectoryName(),
+                                pack.DirectoryName(),
+                                group.DirectoryName(),
+                                $"{puzzleFileName}.json");
+                            var puzzle = await Parser.ReadPuzzleJson(filePath);
+                            puzzle.Print();
+                            try 
+                            {
+                                var solution = puzzle.Solve();
+                                puzzle.Print(solution.ToFrozenDictionary());
+                            }
+                            catch (Exception ex)
+                            {
+                                Display.Error(ex.Message);
+                            }
+                            Display.Key();
+                            puzzleId = Display.SelectPuzzleId(header(), group.Start, group.End);
+                        }
+                        headerItems.Pop();
+                        group = SelectItem(header(), pack.Groups);
+                    }
+                    headerItems.Pop();
+                    pack = SelectItem(header(), section.Packs);
+                }
+                headerItems.Pop();
+                section = SelectItem(header(), game.Sections);
+            }
+            headerItems.Pop();
+            game = SelectItem("Games", games);
+        }
     }
 
     private static T? SelectItem<T>(string header, T[] items) where T : IdNameRecord
     {
         var id = Display.SelectItem(header, items);
-        if (id == "q")
+        if (id == "q" || id == "b" || string.IsNullOrEmpty(id))
             return default;
         var item = items.Single(i => i.Id == id);
         if (null == item)

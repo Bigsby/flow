@@ -48,7 +48,7 @@ internal static class Display
         => WriteLine(text);
 
     public static void Key()
-        => ReadLine();
+        => ReadKey(true);
 
     private static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> filter)
     {
@@ -163,40 +163,98 @@ internal static class Display
 
     public static string SelectItem(string header, IdNameRecord[] list)
     {
-        Console.Clear();
-        ListObjects(header, list);
-        Print();
+        Clear();
+        Print($"{header}: ");
+        var selectedIndex = 0;
+        ListObjects(list, selectedIndex);
         while (true)
         {
-            Write("Select option: ");
-            var input = ReadLine();
-            if (input == "b" || input == "q")
-                return input;
-            input = input?.PadLeft(2, '0');
-            var selectedItem = list.FirstOrDefault(i => i.Id == input);
-            if (null != selectedItem)
-                return selectedItem.Id;
-            Error($"Item not found with Id: '{input}'");
+            var key =  ReadKey(true);
+            switch (key.Key)
+            {
+                case ConsoleKey.DownArrow or ConsoleKey.J:
+                    selectedIndex++;
+                break;
+                case ConsoleKey.UpArrow or ConsoleKey.K:
+                    selectedIndex--;
+                    break;
+                case ConsoleKey.Escape or ConsoleKey.Q:
+                    return "";
+                case ConsoleKey.Enter:
+                    return list[selectedIndex].Id;
+                
+            }
+            if (selectedIndex < 0)
+                selectedIndex = list.Length - 1;
+            if (selectedIndex == list.Length)
+                selectedIndex = 0;
+            var (_, top) = GetCursorPosition();
+            SetCursorPosition(0, top - list.Length);
+            ListObjects(list, selectedIndex);
         }
     }
 
-    public static void ListObjects(string header, IdNameRecord[] list)
+    private static string ToMenuItem(this IdNameRecord item)
+        => $"{item.Id} - {item.Name}";
+
+    private static void ListObjects(IdNameRecord[] list, int selectedIndex)
     {
-        Print($"{header}: ");
-        foreach (var item in list)
-            Print($"{item.Id}: {item.Name}");
+        for (var index = 0; index < list.Length; index++)
+            if (index == selectedIndex)
+                WriteLine($"\x1b[38;5;0m\x1b[48;5;255m{list[index].ToMenuItem()}\x1b[0m");
+            else
+                WriteLine($"\x1b[38;5;255m\x1b[48;5;0m{list[index].ToMenuItem()}\x1b[0m");
     }
 
-    public static string GetPuzzleId(string header, int start, int end)
+    public static int SelectPuzzleId(string header, int start, int end)
     {
-        Print($"{header} ({start}-{end})");
+        var selected = start;
         while (true)
         {
-            Write("Select puzzle: ");
-            var input = ReadLine();
-            if (int.TryParse(input, out var id) && id >= start && id <= end)
-                return input?.PadLeft(3, '0') ?? "";
-            Error($"'{input}' not valid");
+            Clear();
+            Print($"{header}: ");
+            for (var index = start; index <= end; index++)
+            {
+                if (index == selected)
+                    Write($"\x1b[38;5;0m\x1b[48;5;255m{index,3}\x1b[0m");
+                else
+                    Write($"\x1b[38;5;255m\x1b[48;5;0m{index,3}\x1b[0m");
+                if (index % 5 == 0)
+                    WriteLine();
+                else
+                    Write(" ");
+            }
+            switch (ReadKey(true).Key)
+            {
+                case ConsoleKey.UpArrow or ConsoleKey.K:
+                    if (selected >= start + 5)
+                        selected -= 5;
+                    else
+                        selected += 25;
+                break;
+                case ConsoleKey.DownArrow or ConsoleKey.J:
+                    if (selected <= end - 5)
+                        selected += 5;
+                    else
+                        selected -= 25;
+                break;
+                case ConsoleKey.LeftArrow or ConsoleKey.H:
+                    if (selected % 5 != 1)
+                        selected--;
+                    else
+                        selected += 4;
+                break;
+                case ConsoleKey.RightArrow or ConsoleKey.L:
+                    if (selected % 5 != 0)
+                        selected++;
+                    else
+                        selected -= 4;
+                break;
+                case ConsoleKey.Enter:
+                    return selected;
+                case ConsoleKey.Escape:
+                    return -1;
+            }
         }
     }
 }
