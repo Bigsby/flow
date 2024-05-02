@@ -1,4 +1,6 @@
 using System.Collections.Frozen;
+using System.ComponentModel;
+using System.Numerics;
 
 internal static class Menu
 {
@@ -41,8 +43,32 @@ internal static class Menu
                                         $"{puzzleFileName}.json");
                                 var puzzle = await Parser.ReadPuzzleJson(filePath);
                                 puzzle.Print();
-                                var solution = puzzle.Solve();
-                                puzzle.Print(solution.ToFrozenDictionary());
+                                var worker = new BackgroundWorker
+                                {
+                                    WorkerSupportsCancellation = true,
+                                    WorkerReportsProgress = false
+                                };
+                                worker.DoWork += (s, e) => e.Result = puzzle.Solve();
+                                worker.RunWorkerCompleted += (s, e) =>
+                                {
+                                    if (!e.Cancelled)
+                                    {
+                                        var solution = e.Result as IReadOnlyDictionary<Complex, int>;
+                                        puzzle.Print(solution?.ToFrozenDictionary());
+                                    }
+                                };
+                                worker.RunWorkerAsync();
+                                Display.StartProgress();
+                                while (worker.IsBusy ^ worker.CancellationPending)
+                                    if (Display.EscapePressed() && worker.IsBusy)
+                                    {
+                                        worker.CancelAsync();
+                                        Display.StopProgress();
+                                        Display.Print("Solving cancelled!");
+                                    }
+                                    else
+                                        Display.TickProgress();
+                                Display.StopProgress();
                             }
                             catch (Exception ex)
                             {

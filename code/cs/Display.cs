@@ -47,8 +47,33 @@ internal static class Display
     public static void Print(string text = "")
         => WriteLine(text);
 
-    public static void Key()
-        => ReadKey(true);
+    public static ConsoleKey Key()
+        => ReadKey(true).Key;
+    
+    public static bool EscapePressed()
+        => KeyAvailable && Key() == ConsoleKey.Escape;
+    
+    private static int progressIndex = 0;
+    private static string[] progressText = [ "|", "/", "-", "\\" ];
+
+    public static void StartProgress()
+        => Write(progressText[progressIndex]);
+    
+    public static void TickProgress()
+    {
+        progressIndex++;
+        if (progressIndex == progressText.Length)
+            progressIndex = 0;
+        SetCursorPosition(0, CursorTop);
+        Write(progressText[progressIndex]);
+    }
+
+    public static void StopProgress()
+    {
+        SetCursorPosition(0, CursorTop);
+        Write(" ");
+        SetCursorPosition(0, CursorTop);
+    }
 
     private static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> filter)
     {
@@ -178,11 +203,10 @@ internal static class Display
                 case ConsoleKey.UpArrow or ConsoleKey.K:
                     selectedIndex--;
                     break;
-                case ConsoleKey.Escape or ConsoleKey.Q:
+                case ConsoleKey.Escape or ConsoleKey.Q or ConsoleKey.Backspace:
                     return "";
                 case ConsoleKey.Enter:
                     return list[selectedIndex].Id;
-                
             }
             if (selectedIndex < 0)
                 selectedIndex = list.Length - 1;
