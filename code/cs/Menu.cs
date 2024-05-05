@@ -23,14 +23,14 @@ internal static class Menu
                 while (null != pack)
                 {
                     headerItems.Push(pack.Name);
-                    var group = SelectItem(header(), pack.Groups);
+                    var group = SelectItem(header(), pack.GetGroups());
                     while (null != group)
                     {
                         headerItems.Push(group.Name);
                         var puzzleId = Display.SelectPuzzleId(header(), group.Start, group.End);
                         while (puzzleId != -1)
                         {
-                            try 
+                            try
                             {
                                 var puzzleFileName = puzzleId.ToString().PadLeft(3, '0');
                                 var filePath = Path.Combine(
@@ -53,8 +53,8 @@ internal static class Menu
                                 {
                                     if (!e.Cancelled)
                                     {
-                                        var solution = e.Result as IReadOnlyDictionary<Complex, int>;
-                                        puzzle.Print(solution?.ToFrozenDictionary());
+                                        var solution = e.Result as ISolution;
+                                        puzzle.Print(solution);
                                     }
                                 };
                                 worker.RunWorkerAsync();
@@ -78,7 +78,7 @@ internal static class Menu
                             puzzleId = Display.SelectPuzzleId(header(), group.Start, group.End);
                         }
                         headerItems.Pop();
-                        group = SelectItem(header(), pack.Groups);
+                        group = SelectItem(header(), pack.GetGroups());
                     }
                     headerItems.Pop();
                     pack = SelectItem(header(), section.Packs);

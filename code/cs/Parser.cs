@@ -1,4 +1,3 @@
-using System.Numerics;
 using System.Text.Json;
 
 internal static class Parser
@@ -23,12 +22,6 @@ internal static class Parser
             return (int.Parse(split[0]), int.Parse(split[1]));
         }
         return (int.Parse(input), int.Parse(input));
-    }
-
-    private static Complex ReadEnd(string input)
-    {
-        var split = input.Trim().Split(',');
-        return new Complex(int.Parse(split[0]), int.Parse(split[1]));
     }
 
     private static Walls ParseType(string input)
@@ -60,20 +53,20 @@ internal static class Parser
     {
         if (null == configuration)
             throw new ArgumentNullException(nameof(configuration));
-        var positions = new Dictionary<Complex, Walls>();
-        var colours = new List<(Complex, Complex)>();
+        var positions = new Dictionary<Point, Walls>();
+        var colours = new List<(Point, Point)>();
         foreach (var position in configuration.Positions)
         {
             var (x1, x2) = ReadPositions(position.X);
             var (y1, y2) = ReadPositions(position.Y);
             for (var x = x1; x <= x2; x++)
                 for (var y = y1; y <= y2; y++)
-                positions[new Complex(x, y)] = ParseType(position.Type);
+                positions[new Point(x, y)] = ParseType(position.Type);
         }
         foreach (var colour in configuration.Colours)
-            colours.Add((new Complex(colour.X1, colour.Y1), new Complex(colour.X2, colour.Y2)));
-        var maxX = (int)positions.Keys.Max(p => p.Real) + 1;
-        var maxY = (int)positions.Keys.Max(p => p.Imaginary) + 1;
+            colours.Add((new Point(colour.X1, colour.Y1), new Point(colour.X2, colour.Y2)));
+        var maxX = positions.Keys.Max(p => p.X) + 1;
+        var maxY = positions.Keys.Max(p => p.Y) + 1;
 
         return new Puzzle(configuration.Name ?? "", configuration.Subtitle ?? "", positions.AsReadOnly(), colours.ToArray(), maxX, maxY);
     }
@@ -84,55 +77,33 @@ internal static class Parser
         return FromConfiguration(configuration);
     }
 
+    private static string ToId(this int id)
+        => id.ToString("00");
 
-    public static async Task<Puzzle> ReadPuzzleFile(string filePath)
-    {
-        if (!File.Exists(filePath))
-            throw new FileNotFoundException($@"{filePath} does not exist");
-
-        var builder = new PuzzleBuilder();
-        var stage = 0;
-        foreach (var line in await File.ReadAllLinesAsync(filePath))
+    public static Group[] GetGroups(this Pack pack)
+        => pack.Counting switch
         {
-            var stripped = line.Trim();
-            switch (stage)
-            {
-                case 0:
-                    builder.SetName(stripped);
-                    stage++;
-                    break;
-                case 1:
-                    builder.SetSubTitle(stripped);
-                    stage++;
-                    break;
-                case 2:
-                    stage++;
-                    break;
-                case 3:
-                    if (string.IsNullOrWhiteSpace(stripped))
-                    {
-                        stage++;
-                        continue;
-                    }
-                    var split = line.Split(' ');
-                    var (positions, type) = (split[0], split[1]);
-                    var positionSplits = positions.Split(',');
-                    var (x1, x2) = ReadPositions(positionSplits[0]);
-                    var (y1, y2) = ReadPositions(positionSplits[1]);
-                    for (var x = x1; x <= x2; x++)
-                        for (var y = y1; y <= y2; y++)
-                        builder.AddPosition(new Complex(x, y), (Walls)int.Parse(type));
-                    break;
-                case 4:
-                    if (!string.IsNullOrWhiteSpace(stripped))
-                    {
-                        var endsSplit = line.Split(' ');
-                        var (end1, end2) = (endsSplit[0], endsSplit[1]);
-                        builder.AddColour(ReadEnd(end1), ReadEnd(end2));
-                    }
-                    break;
-            }
-        }
-        return builder.Build();
-    }
+            GroupCounting.Continuous => pack.Groups.Select(
+                (name, index) => new Group(
+                    index.ToId(),
+                    name,
+                    1 + (index * 30),
+                    (index + 1) * 30)
+                ).ToArray(),
+            GroupCounting.Reset => pack.Groups.Select(
+                (name, index) => new Group(
+                    index.ToId(),
+                    name,
+                    1, 30)
+                ).ToArray()
+            ,
+            GroupCounting.Reset2 => pack.Groups.Select(
+                (name, index) => new Group(
+                    index.ToId(),
+                    name,
+                    1 + (index % 2 == 1 ? 30 : 0),
+                    (index % 2 == 1 ? 1 : 2) * 30)
+                ).ToArray(),
+            _ => throw new NotImplementedException()
+        };
 }

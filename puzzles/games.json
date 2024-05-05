@@ -10,145 +10,49 @@
                     {
                         "id": "01",
                         "name": "Classic Pack",
+                        "counting": "reset",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "5x5 - easy",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "6x6",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "03",
-                                "name": "7x7 - medium",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "04",
-                                "name": "8x8",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "05",
-                                "name": "9x9 - hard",
-                                "start": 1,
-                                "end": 30
-                            }
+                            "5x5 - easy",
+                            "6x6",
+                            "7x7 - medium",
+                            "8x8",
+                            "9x9 - hard"
                         ]
                     },
                     {
                         "id": "02",
                         "name": "Bonus Pack",
+                        "counting": "reset",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "5x5 - easy",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "6x6",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "03",
-                                "name": "7x7 - medium",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "04",
-                                "name": "8x8",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "05",
-                                "name": "9x9 - hard",
-                                "start": 1,
-                                "end": 30
-                            }
+                            "5x5 - easy",
+                            "6x6",
+                            "7x7 - medium",
+                            "8x8",
+                            "9x9 - hard"
                         ]
                     },
                     {
                         "id": "03",
                         "name": "Green Pack",
+                        "counting": "reset",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "5x5 - easy",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "6x6",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "03",
-                                "name": "7x7 - medium",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "04",
-                                "name": "8x8",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "05",
-                                "name": "9x9 - hard",
-                                "start": 1,
-                                "end": 30
-                            }
+                            "5x5 - easy",
+                            "6x6",
+                            "7x7 - medium",
+                            "8x8",
+                            "9x9 - hard"
                         ]
                     },
                     {
                         "id": "04",
                         "name": "Blue Pack",
+                        "counting": "reset",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "5x5 - easy",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "6x6",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "03",
-                                "name": "7x7 - medium",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "04",
-                                "name": "8x8",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "05",
-                                "name": "9x9 - hard",
-                                "start": 1,
-                                "end": 30
-                            }
+                            "5x5 - easy",
+                            "6x6",
+                            "7x7 - medium",
+                            "8x8",
+                            "9x9 - hard"
                         ]
                     }
                 ]
@@ -160,181 +64,61 @@
                     {
                         "id": "01",
                         "name": "6x6 Mania",
+                        "counting": "continuous",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "1 - 30",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "31 - 60",
-                                "start": 31,
-                                "end": 60
-                            },
-                            {
-                                "id": "03",
-                                "name": "61 - 90",
-                                "start": 61,
-                                "end": 90
-                            },
-                            {
-                                "id": "04",
-                                "name": "91 - 120",
-                                "start": 91,
-                                "end": 120
-                            },
-                            {
-                                "id": "05",
-                                "name": "121 - 150",
-                                "start": 121,
-                                "end": 150
-                            }
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
                         ]
                     },
                     {
                         "id": "02",
                         "name": "7x7 Mania",
+                        "counting": "continuous",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "1 - 30",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "31 - 60",
-                                "start": 31,
-                                "end": 60
-                            },
-                            {
-                                "id": "03",
-                                "name": "61 - 90",
-                                "start": 61,
-                                "end": 90
-                            },
-                            {
-                                "id": "04",
-                                "name": "91 - 120",
-                                "start": 91,
-                                "end": 120
-                            },
-                            {
-                                "id": "05",
-                                "name": "121 - 150",
-                                "start": 121,
-                                "end": 150
-                            }
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
                         ]
                     },
                     {
                         "id": "03",
                         "name": "8x8 Mania",
+                        "counting": "continuous",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "1 - 30",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "31 - 60",
-                                "start": 31,
-                                "end": 60
-                            },
-                            {
-                                "id": "03",
-                                "name": "61 - 90",
-                                "start": 61,
-                                "end": 90
-                            },
-                            {
-                                "id": "04",
-                                "name": "91 - 120",
-                                "start": 91,
-                                "end": 120
-                            },
-                            {
-                                "id": "05",
-                                "name": "121 - 150",
-                                "start": 121,
-                                "end": 150
-                            }
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
                         ]
                     },
                     {
-                        "id": "01",
+                        "id": "04",
                         "name": "9x9 Mania",
+                        "counting": "continuous",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "1 - 30",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "31 - 60",
-                                "start": 31,
-                                "end": 60
-                            },
-                            {
-                                "id": "03",
-                                "name": "61 - 90",
-                                "start": 61,
-                                "end": 90
-                            },
-                            {
-                                "id": "04",
-                                "name": "91 - 120",
-                                "start": 91,
-                                "end": 120
-                            },
-                            {
-                                "id": "05",
-                                "name": "121 - 150",
-                                "start": 121,
-                                "end": 150
-                            }
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
                         ]
                     },
                     {
-                        "id": "01",
+                        "id": "05",
                         "name": "10x10 Mania",
+                        "counting": "continuous",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "1 - 30",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "31 - 60",
-                                "start": 31,
-                                "end": 60
-                            },
-                            {
-                                "id": "03",
-                                "name": "61 - 90",
-                                "start": 61,
-                                "end": 90
-                            },
-                            {
-                                "id": "04",
-                                "name": "91 - 120",
-                                "start": 91,
-                                "end": 120
-                            },
-                            {
-                                "id": "05",
-                                "name": "121 - 150",
-                                "start": 121,
-                                "end": 150
-                            }
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
                         ]
                     }
                 ]
@@ -346,181 +130,582 @@
                     {
                         "id": "01",
                         "name": "11x11 Mania",
+                        "counting": "continuous",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "1 - 30",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "31 - 60",
-                                "start": 31,
-                                "end": 60
-                            },
-                            {
-                                "id": "03",
-                                "name": "61 - 90",
-                                "start": 61,
-                                "end": 90
-                            },
-                            {
-                                "id": "04",
-                                "name": "91 - 120",
-                                "start": 91,
-                                "end": 120
-                            },
-                            {
-                                "id": "05",
-                                "name": "121 - 150",
-                                "start": 121,
-                                "end": 150
-                            }
-                        ]
-                    },
-                    {
-                        "id": "01",
-                        "name": "12x12 Mania",
-                        "groups": [
-                            {
-                                "id": "01",
-                                "name": "1 - 30",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "31 - 60",
-                                "start": 31,
-                                "end": 60
-                            },
-                            {
-                                "id": "03",
-                                "name": "61 - 90",
-                                "start": 61,
-                                "end": 90
-                            },
-                            {
-                                "id": "04",
-                                "name": "91 - 120",
-                                "start": 91,
-                                "end": 120
-                            },
-                            {
-                                "id": "05",
-                                "name": "121 - 150",
-                                "start": 121,
-                                "end": 150
-                            }
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
                         ]
                     },
                     {
                         "id": "02",
-                        "name": "13x13 Mania",
+                        "name": "12x12 Mania",
+                        "counting": "continuous",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "1 - 30",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "31 - 60",
-                                "start": 31,
-                                "end": 60
-                            },
-                            {
-                                "id": "03",
-                                "name": "61 - 90",
-                                "start": 61,
-                                "end": 90
-                            },
-                            {
-                                "id": "04",
-                                "name": "91 - 120",
-                                "start": 91,
-                                "end": 120
-                            },
-                            {
-                                "id": "05",
-                                "name": "121 - 150",
-                                "start": 121,
-                                "end": 150
-                            }
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
                         ]
                     },
                     {
                         "id": "03",
-                        "name": "14x14 Mania",
+                        "name": "13x13 Mania",
+                        "counting": "continuous",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "1 - 30",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "31 - 60",
-                                "start": 31,
-                                "end": 60
-                            },
-                            {
-                                "id": "03",
-                                "name": "61 - 90",
-                                "start": 61,
-                                "end": 90
-                            },
-                            {
-                                "id": "04",
-                                "name": "91 - 120",
-                                "start": 91,
-                                "end": 120
-                            },
-                            {
-                                "id": "05",
-                                "name": "121 - 150",
-                                "start": 121,
-                                "end": 150
-                            }
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
                         ]
                     },
                     {
                         "id": "04",
-                        "name": "15x15 Mania",
+                        "name": "14x14 Mania",
+                        "counting": "continuous",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "1 - 30",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "31 - 60",
-                                "start": 31,
-                                "end": 60
-                            },
-                            {
-                                "id": "03",
-                                "name": "61 - 90",
-                                "start": 61,
-                                "end": 90
-                            },
-                            {
-                                "id": "04",
-                                "name": "91 - 120",
-                                "start": 91,
-                                "end": 120
-                            },
-                            {
-                                "id": "05",
-                                "name": "121 - 150",
-                                "start": 121,
-                                "end": 150
-                            }
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "05",
+                        "name": "15x15 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "04",
+                "name": "Progression",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Rainbow Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Interval Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "05",
+                "name": "Links",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Hoop Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "5x5",
+                            "5x6",
+                            "6x6",
+                            "6x7",
+                            "7x7"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Loop Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "4x6",
+                            "5x6",
+                            "6x6",
+                            "6x7",
+                            "6x8"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Chain Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "5x5",
+                            "5x6",
+                            "6x6",
+                            "6x7",
+                            "7x7"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Chain Maze",
+                        "counting": "continuous",
+                        "groups": [
+                            "5x5",
+                            "6x6",
+                            "7x7",
+                            "8x8",
+                            "9x9"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "06",
+                "name": "Rectangles",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Tower Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "5x6 - 5x11",
+                            "6x7 - 6x12",
+                            "7x8 - 7x13",
+                            "8x9 - 8x14",
+                            "9x10 - 9x15"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Rectangle Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x10",
+                            "9x11",
+                            "10x12",
+                            "11x13",
+                            "12x14"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Hourglass Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "9x11",
+                            "9x12",
+                            "11x13",
+                            "11x14",
+                            "13x15"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "07",
+                "name": "Walls",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Courtyard Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "7x7 - easy",
+                            "8x8",
+                            "9x9 - medium",
+                            "10x10",
+                            "11x11 - hard"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Courtyard Spin",
+                        "groups": [
+                            "9x9 - hard",
+                            "10x10",
+                            "11x11 - harder",
+                            "12x12",
+                            "13x13 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Pathway Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "11x11 - hard",
+                            "12x12",
+                            "13x13 - harder",
+                            "14x14",
+                            "15x15 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Star Field Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "11x11 - hard",
+                            "12x12",
+                            "13x13 - harder",
+                            "14x14",
+                            "15x15 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "05",
+                        "name": "Pockets Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x8 - hard",
+                            "9x9",
+                            "10x10 - harder",
+                            "11x11",
+                            "12x12 - hardest"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "08",
+                "name": "Obstacles",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Worm Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "10x10 - hard",
+                            "11x11",
+                            "12x12 - harder",
+                            "13x13",
+                            "14x14 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Amoeba Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Inkblot Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Scattered Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x8 - hard",
+                            "9x9",
+                            "10x10 - harder",
+                            "11x11",
+                            "12x12 - hardest"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "09",
+                "name": "Variety",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Variety Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Hexes Sampler",
+                        "counting": "continuous",
+                        "groups": [
+                            "5x5 - easy",
+                            "6x6",
+                            "7x7 - medium",
+                            "8x8",
+                            "9x9 - hard"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Bridges Sampler",
+                        "counting": "reset",
+                        "groups": [
+                            "5x5 - easy",
+                            "6x6",
+                            "7x7 - medium",
+                            "8x8",
+                            "9x9 - hard"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Warps Sampler",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 Warp",
+                            "2 Warps",
+                            "3 Warps",
+                            "4 Warps",
+                            "6 Warps"
+                        ]
+                    },
+                    {
+                        "id": "06",
+                        "name": "Party Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "10",
+                "name": "Extreme",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Extreme Pack",
+                        "counting": "reset",
+                        "groups": [
+                            "8x8 - hard",
+                            "9x9",
+                            "10x10 - harder",
+                            "11x11",
+                            "12x12 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Extreme Pack 2",
+                        "counting": "reset",
+                        "groups": [
+                            "8x8 - hard",
+                            "9x9",
+                            "10x10 - harder",
+                            "11x11",
+                            "12x12 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Extreme Rainbow",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Extreme Rectangle",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x11",
+                            "9x12",
+                            "10x13",
+                            "11x14",
+                            "12x15"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "11",
+                "name": "Jumbo",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Jumbo Pack",
+                        "counting": "reset",
+                        "groups": [
+                            "10x10 - hard",
+                            "11x11",
+                            "12x12 - harder",
+                            "13x13",
+                            "14x14 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Jumbo Rainbow",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Jumbo Rectangle",
+                        "counting": "continuous",
+                        "groups": [
+                            "11x14",
+                            "12x15",
+                            "13x16",
+                            "14x17",
+                            "15x18"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Jumbo Rectangle 2",
+                        "counting": "continuous",
+                        "groups": [
+                            "11x14",
+                            "12x15",
+                            "13x16",
+                            "14x17",
+                            "15x18"
+                        ]
+                    },
+                    {
+                        "id": "05",
+                        "name": "Jumbo Courtyard",
+                        "counting": "continuous",
+                        "groups": [
+                            "11x11 - hard",
+                            "12x12",
+                            "13x13 - harder",
+                            "14x14",
+                            "15x15 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "06",
+                        "name": "Purple Pack",
+                        "counting": "reset",
+                        "groups": [
+                            "10x10 - hard",
+                            "11x11",
+                            "12x12 - harder",
+                            "13x13",
+                            "14x14 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "07",
+                        "name": "Pink Pack",
+                        "counting": "reset",
+                        "groups": [
+                            "10x10 - hard",
+                            "11x11",
+                            "12x12 - harder",
+                            "13x13",
+                            "14x14 - hardest"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "12",
+                "name": "Mega",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "11x14 Mega Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150",
+                            "151 - 180",
+                            "181 - 210",
+                            "211 - 240",
+                            "241 - 270",
+                            "271 - 300",
+                            "301 - 330",
+                            "331 - 360",
+                            "361 - 390",
+                            "391 - 420",
+                            "421 - 450"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "12x15 Mega Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150",
+                            "151 - 180",
+                            "181 - 210",
+                            "211 - 240",
+                            "241 - 270",
+                            "271 - 300",
+                            "301 - 330",
+                            "331 - 360",
+                            "361 - 390",
+                            "391 - 420",
+                            "421 - 450"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "13",
+                "name": "Kids",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Kids Pack",
+                        "counting": "reset2",
+                        "groups": [
+                            "5x5",
+                            "5x5",
+                            "6x6",
+                            "6x6"
                         ]
                     }
                 ]
@@ -530,12 +715,1221 @@
     {
         "id": "bridges",
         "name": "Flow Free: Bridges",
-        "sections": []
+        "sections": [
+            {
+                "id": "01",
+                "name": "Intro",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Starter Pack",
+                        "counting": "reset2",
+                        "groups": [
+                            "5x5",
+                            "5x5",
+                            "6x6",
+                            "6x6"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Classic Pack",
+                        "counting": "reset",
+                        "groups": [
+                            "5x5 - easy",
+                            "6x6",
+                            "7x7 - medium",
+                            "8x8",
+                            "9x9 - hard"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Classic Pack 2",
+                        "counting": "reset",
+                        "groups": [
+                            "5x5 - easy",
+                            "6x6",
+                            "7x7 - medium",
+                            "8x8",
+                            "9x9 - hard"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Blue Pack",
+                        "counting": "reset",
+                        "groups": [
+                            "5x5 - easy",
+                            "6x6",
+                            "7x7 - medium",
+                            "8x8",
+                            "9x9 - hard"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "02",
+                "name": "Challenge",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Challenge Pack",
+                        "counting": "reset2",
+                        "groups": [
+                            "7x7",
+                            "7x7",
+                            "8x8",
+                            "8x8"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Bonus Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "03",
+                "name": "Manias",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "6x6 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "7x7 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "8x8 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "9x9 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120"
+                        ]
+                    },
+                    {
+                        "id": "05",
+                        "name": "10x10 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "04",
+                "name": "Hard Manias",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "11x11 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120"
+                        ]
+                    },
+                    {
+                        "id": "01",
+                        "name": "12x12 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "13x13 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "14x14 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "15x15 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "05",
+                "name": "Variety",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Variety Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Warps Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "5x5",
+                            "6x6",
+                            "7x7",
+                            "8x8",
+                            "9x9"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "06",
+                "name": "Progression",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Rainbow Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Interval Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "07",
+                "name": "Rectangles",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Tower Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "6x7 - 6x12",
+                            "7x8 - 7x13",
+                            "8x9 - 8x14",
+                            "9x10 - 9x15",
+                            "10x11 - 10x16"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Rectangle Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x10",
+                            "9x11",
+                            "10x12",
+                            "11x13",
+                            "12x14"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Hourglass Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "9x11",
+                            "9x12",
+                            "11x13",
+                            "11x14",
+                            "13x15"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "08",
+                "name": "Woven",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Stitched Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "7x7 - easy",
+                            "8x8",
+                            "9x9 - medium",
+                            "10x10",
+                            "11x11 - hard"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Hashed Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "7x7 - easy",
+                            "8x8",
+                            "9x9 - medium",
+                            "10x10",
+                            "11x11 - hard"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Braid Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x8 - hard",
+                            "9x9",
+                            "10x10 - harder",
+                            "11x11",
+                            "12x12 - hardest"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "09",
+                "name": "Walls",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Pathway Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "11x11 - hard",
+                            "12x12",
+                            "13x13 - harder",
+                            "14x14",
+                            "15x15 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Courtyard Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "7x7 - easy",
+                            "8x8",
+                            "9x9 - medium",
+                            "10x10",
+                            "11x11 - hard"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Courtyard Spin",
+                        "groups": [
+                            "9x9 - hard",
+                            "10x10",
+                            "11x11 - harder",
+                            "12x12",
+                            "13x13 - hardest"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "10",
+                "name": "Obstacles",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Inkblot Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Scattered Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x8 - hard",
+                            "9x9",
+                            "10x10 - harder",
+                            "11x11",
+                            "12x12 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Worm Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "10x10 - hard",
+                            "11x11",
+                            "12x12 - harder",
+                            "13x13",
+                            "14x14 - hardest"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "11",
+                "name": "Extreme",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Extreme Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x8 - hard",
+                            "9x9",
+                            "10x10 - harder",
+                            "11x11",
+                            "12x12 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Extreme Pack 2",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x8 - hard",
+                            "9x9",
+                            "10x10 - harder",
+                            "11x11",
+                            "12x12 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Extreme Rainbow",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Extreme Rectangle",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x11",
+                            "9x12",
+                            "10x13",
+                            "11x14",
+                            "12x15"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "12",
+                "name": "Jumbo",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Yellow Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "10x10 - hard",
+                            "11x11",
+                            "12x12 - harder",
+                            "13x13",
+                            "14x14 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Jumbo Rainbow",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Jumbo Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "10x10 - hard",
+                            "11x11",
+                            "12x12 - harder",
+                            "13x13",
+                            "14x14 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Jumbo Courtyard",
+                        "counting": "continuous",
+                        "groups": [
+                            "11x11 - hard",
+                            "12x12",
+                            "13x13 - harder",
+                            "14x14",
+                            "15x15 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "05",
+                        "name": "Jumbo Rectangle",
+                        "counting": "continuous",
+                        "groups": [
+                            "11x14",
+                            "12x15",
+                            "13x16",
+                            "14x17",
+                            "15x18"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "13",
+                "name": "Mega",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "11x14 Mega Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150",
+                            "151 - 180",
+                            "181 - 210",
+                            "211 - 240",
+                            "241 - 270",
+                            "271 - 300",
+                            "301 - 330",
+                            "331 - 360",
+                            "361 - 390",
+                            "391 - 420",
+                            "421 - 450"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "12x15 Mega Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150",
+                            "151 - 180",
+                            "181 - 210",
+                            "211 - 240",
+                            "241 - 270",
+                            "271 - 300",
+                            "301 - 330",
+                            "331 - 360",
+                            "361 - 390",
+                            "391 - 420",
+                            "421 - 450"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "14",
+                "name": "Kids",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Kids Pack",
+                        "counting": "reset2",
+                        "groups": [
+                            "5x5",
+                            "5x5",
+                            "6x6",
+                            "6x6"
+                        ]
+                    }
+                ]
+            }
+        ]
     },
     {
         "id": "hexes",
         "name":"Flow Free: Hexes",
-        "sections": []
+        "sections": [
+            {
+                "id": "01",
+                "name": "Intro",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Classic Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "5x5 - easy",
+                            "6x6",
+                            "7x7 - medium",
+                            "8x8",
+                            "9x9 - hard"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Flower Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "5x5 - easy",
+                            "5x7",
+                            "7x7 - medium",
+                            "7x9",
+                            "9x9 - hard"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Classic Pack 2",
+                        "counting": "continuous",
+                        "groups": [
+                            "5x5 - easy",
+                            "6x6",
+                            "7x7 - medium",
+                            "8x8",
+                            "9x9 - hard"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "02",
+                "name": "Progression",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Rainbow Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Interval Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "03",
+                "name": "Hextangles",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Tower Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "5x6 - 5x11",
+                            "6x7 - 6x12",
+                            "7x8 - 7x13",
+                            "8x9 - 8x14",
+                            "9x10 - 9x15"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Hextangle Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x10",
+                            "9x11",
+                            "10x12",
+                            "11x13",
+                            "12x14"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "04",
+                "name": "Manias",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "7x7 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "8x8 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "9x9 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "10x10 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "05",
+                "name": "Hard Manias",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "11x11 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "12x12 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "13x13 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "14x14 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "05",
+                        "name": "15x15 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "06",
+                "name": "Challenge",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Variety Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Sunflower Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "7x7",
+                            "9x9",
+                            "11x11",
+                            "13x13",
+                            "15x15"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "07",
+                "name": "Walls",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Courtyard Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "7x7 - easy",
+                            "7x9",
+                            "9x9 - medium",
+                            "9x11",
+                            "11x11 - hard"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Courtyard Spin",
+                        "counting": "continuous",
+                        "groups": [
+                            "9x9 - hard",
+                            "9x11",
+                            "11x11 - harder",
+                            "11x13",
+                            "13x13 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Flower Field Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "11x11 - hard",
+                            "11x13",
+                            "13x13 - harder",
+                            "13x15",
+                            "15x15 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Tangle Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "10x10 - hard",
+                            "11x11",
+                            "12x12 - harder",
+                            "13x13",
+                            "14x14 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "05",
+                        "name": "Pathway Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "11x11 - hard",
+                            "12x12",
+                            "13x13 - harder",
+                            "14x14",
+                            "15x15 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "06",
+                        "name": "Pockets Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x8 - hard",
+                            "9x9",
+                            "10x10 - harder",
+                            "11x11",
+                            "12x12 - hardest"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "08",
+                "name": "Obstacles",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Worm Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "10x10 - hard",
+                            "11x11",
+                            "12x12 - harder",
+                            "13x13",
+                            "14x14 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Amoeba Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Inkblot Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Scattered Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x8 - hard",
+                            "9x9",
+                            "10x10 - harder",
+                            "11x11",
+                            "12x12 - hardest"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "09",
+                "name": "Extreme",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Extreme Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x8 - hard",
+                            "9x9",
+                            "10x10 - harder",
+                            "11x11",
+                            "12x12 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Extreme Pack 2",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x8 - hard",
+                            "9x9",
+                            "10x10 - harder",
+                            "11x11",
+                            "12x12 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Extreme Rainbow",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Extreme Hextangle",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x10",
+                            "9x11",
+                            "10x12",
+                            "11x13",
+                            "12x14"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "10",
+                "name": "Jumbo",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Jumbo Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "10x10 - hard",
+                            "11x11",
+                            "12x12 - harder",
+                            "13x13",
+                            "14x14 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Jumbo Pack 2",
+                        "groups": [
+                            "10x10 - hard",
+                            "11x11",
+                            "12x12 - harder",
+                            "13x13",
+                            "14x14 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Jumbo Rainbow",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Jumbo Courtyard",
+                        "counting": "continuous",
+                        "groups": [
+                            "11x11 - hard",
+                            "11x13",
+                            "13x13 - harder",
+                            "13x15",
+                            "15x15 - hardest"
+                        ]
+                    },
+                    {
+                        "id": "05",
+                        "name": "Jumbo Spin",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "06",
+                        "name": "Jumbo Interval",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "07",
+                        "name": "Jumbo Hextangle",
+                        "counting": "continuous",
+                        "groups": [
+                            "11x14",
+                            "12x15",
+                            "13x16",
+                            "14x17",
+                            "15x18"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "11",
+                "name": "Mega",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "11x14 Mega Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150",
+                            "151 - 180",
+                            "181 - 210",
+                            "211 - 240",
+                            "241 - 270",
+                            "271 - 300",
+                            "301 - 330",
+                            "331 - 360",
+                            "361 - 390",
+                            "391 - 420",
+                            "421 - 450"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "12x15 Mega Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150",
+                            "151 - 180",
+                            "181 - 210",
+                            "211 - 240",
+                            "241 - 270",
+                            "271 - 300",
+                            "301 - 330",
+                            "331 - 360",
+                            "361 - 390",
+                            "391 - 420",
+                            "421 - 450"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "01",
+                "name": "Kids",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Kids Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "5x5",
+                            "5x5",
+                            "6x6",
+                            "6x6"
+                        ]
+                    }
+                ]
+            }
+        ]
     },
     {
         "id": "warps",
@@ -548,73 +1942,603 @@
                     {
                         "id": "01",
                         "name": "Starter Pack",
+                        "counting": "continuous",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "1 Warp",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "2 Warps",
-                                "start": 31,
-                                "end": 60
-                            },
-                            {
-                                "id": "03",
-                                "name": "3 Warps",
-                                "start": 61,
-                                "end": 90
-                            },
-                            {
-                                "id": "04",
-                                "name": "3 Warps",
-                                "start": 91,
-                                "end": 120
-                            },
-                            {
-                                "id": "05",
-                                "name": "4 Warps",
-                                "start": 121,
-                                "end": 150
-                            }
+                            "1 Warp",
+                            "2 Warps",
+                            "3 Warps",
+                            "3 Warps",
+                            "4 Warps"
                         ]
                     },
                     {
                         "id": "02",
                         "name": "Jet Pack",
+                        "counting": "continuous",
                         "groups": [
-                            {
-                                "id": "01",
-                                "name": "5x5",
-                                "start": 1,
-                                "end": 30
-                            },
-                            {
-                                "id": "02",
-                                "name": "6x6",
-                                "start": 31,
-                                "end": 60
-                            },
-                            {
-                                "id": "03",
-                                "name": "7x7",
-                                "start": 61,
-                                "end": 90
-                            },
-                            {
-                                "id": "04",
-                                "name": "8x8",
-                                "start": 91,
-                                "end": 120
-                            },
-                            {
-                                "id": "05",
-                                "name": "9x9",
-                                "start": 121,
-                                "end": 150
-                            }
+                            "5x5",
+                            "6x6",
+                            "7x7",
+                            "8x8",
+                            "9x9"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Comet Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "2 Warps",
+                            "3 Warps",
+                            "4 Warps",
+                            "5 Warps",
+                            "6 Warps"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "02",
+                "name": "Manias",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "5x5 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "6x6 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "7x7 - medium",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "8x8 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "05",
+                        "name": "9x9 - hard",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "03",
+                "name": "Hard Manias",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "10x10 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "11x11 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "12x12 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "13x13 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "05",
+                        "name": "14x14 Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "04",
+                "name": "Challenge",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Variety Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Tower Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "4x5 - 4x10",
+                            "5x6 - 5x11",
+                            "6x7 - 6x12",
+                            "7x8 - 7x13",
+                            "8x9 - 8x14"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Infiniglass Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "9x11",
+                            "9x12",
+                            "11x13",
+                            "11x14",
+                            "13x15"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "05",
+                "name": "Progression",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Rainbow Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Spectrum Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "06",
+                "name": "Walls",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Scanline Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "5x5",
+                            "6x6",
+                            "7x7",
+                            "8x8",
+                            "9x9"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Warpyard Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "7x7",
+                            "8x8",
+                            "9x9",
+                            "10x10",
+                            "11x11"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Warpyard Spin",
+                        "counting": "continuous",
+                        "groups": [
+                            "9x9",
+                            "10x10",
+                            "11x11",
+                            "12x12",
+                            "13x13"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Warpway Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "10x10",
+                            "11x11",
+                            "12x12",
+                            "13x13",
+                            "14x14"
+                        ]
+                    },
+                    {
+                        "id": "05",
+                        "name": "Pockets Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "6x6",
+                            "7x7",
+                            "8x8",
+                            "9x9",
+                            "10x10"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "07",
+                "name": "Boundless",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "4x4 Boundless",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "5x5 Boundless",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "6x6 Boundless",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "7x7 Boundless",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "08",
+                "name": "Obstacles",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Worm Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "6x6",
+                            "7x7",
+                            "8x8",
+                            "9x9",
+                            "10x10"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Inkblot Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Scattered Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "7x7",
+                            "8x8",
+                            "9x9",
+                            "10x10",
+                            "11x11"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Rift Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "7x7",
+                            "8x8",
+                            "9x9",
+                            "10x10",
+                            "11x11"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "09",
+                "name": "Wide Warps",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Small Galaxy Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "4x4",
+                            "5x5",
+                            "5x5",
+                            "6x6",
+                            "6x6"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Large Galaxy Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "6x6",
+                            "7x7",
+                            "7x7",
+                            "8x8",
+                            "8x8"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Capacitor Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "7x7",
+                            "8x8",
+                            "9x9",
+                            "10x10",
+                            "11x11"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "10",
+                "name": "Extreme",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Deep Space Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x8",
+                            "8x8",
+                            "8x8",
+                            "9x9",
+                            "9x9"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "Jumbo Jet Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "9x9",
+                            "10x10",
+                            "11x11",
+                            "12x12",
+                            "13x13"
+                        ]
+                    },
+                    {
+                        "id": "03",
+                        "name": "Deep Space Pack 2",
+                        "counting": "continuous",
+                        "groups": [
+                            "8x8",
+                            "8x8",
+                            "8x8",
+                            "9x9",
+                            "9x9"
+                        ]
+                    },
+                    {
+                        "id": "04",
+                        "name": "Jumbo Rainbow",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150"
+                        ]
+                    },
+                    {
+                        "id": "05",
+                        "name": "Time Warp Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "9x11",
+                            "9x12",
+                            "11x13",
+                            "11x14",
+                            "13x15"
+                        ]
+                    },
+                    {
+                        "id": "06",
+                        "name": "Extreme Rectangle",
+                        "counting": "continuous",
+                        "groups": [
+                            "7x10",
+                            "8x11",
+                            "9x12",
+                            "10x13",
+                            "11x14"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "11",
+                "name": "Mega",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "9x12 Mega Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150",
+                            "151 - 180",
+                            "181 - 210",
+                            "211 - 240",
+                            "241 - 270",
+                            "271 - 300",
+                            "301 - 330",
+                            "331 - 360",
+                            "361 - 390",
+                            "391 - 420",
+                            "421 - 450"
+                        ]
+                    },
+                    {
+                        "id": "02",
+                        "name": "10x13 Mega Mania",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 - 30",
+                            "31 - 60",
+                            "61 - 90",
+                            "91 - 120",
+                            "121 - 150",
+                            "151 - 180",
+                            "181 - 210",
+                            "211 - 240",
+                            "241 - 270",
+                            "271 - 300",
+                            "301 - 330",
+                            "331 - 360",
+                            "361 - 390",
+                            "391 - 420",
+                            "421 - 450"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "12",
+                "name": "Kids",
+                "packs": [
+                    {
+                        "id": "01",
+                        "name": "Kids Pack",
+                        "counting": "continuous",
+                        "groups": [
+                            "1 Warp",
+                            "1 Warp",
+                            "2 Warp",
+                            "2 Warp",
+                            "2 Warp"
                         ]
                     }
                 ]
