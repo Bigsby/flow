@@ -6,6 +6,8 @@ internal static class Program
     private static async Task Main(string[] args)
     {
         Console.CursorVisible = false;
+        Console.CancelKeyPress += (_, _) => Console.CursorVisible = true;
+
         if (args.Length == 2 && args[0] == "-d")
         {
             var data = await Parser.GetGamesData(args[1]);
@@ -32,7 +34,7 @@ internal static class Program
             var solution = puzzle.Solve();
             
             Display.Print("Solution:");
-            puzzle.Print(solution.ToFrozenDictionary());
+            puzzle.Print(solution.ToDictionary());
         } 
         catch (FileNotFoundException ex)
         {
