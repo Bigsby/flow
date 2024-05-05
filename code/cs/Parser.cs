@@ -68,7 +68,10 @@ internal static class Parser
         var maxX = positions.Keys.Max(p => p.X) + 1;
         var maxY = positions.Keys.Max(p => p.Y) + 1;
 
-        return new Puzzle(configuration.Name ?? "", configuration.Subtitle ?? "", positions.AsReadOnly(), colours.ToArray(), maxX, maxY);
+        return new Puzzle(
+            configuration.Name ?? "", 
+            configuration.Subtitle ?? "", positions.AsReadOnly(), 
+            colours.ToArray(), (int)maxX, (int)maxY);
     }
 
     public static async Task<Puzzle> ReadPuzzleJson(string filePath)
@@ -85,14 +88,14 @@ internal static class Parser
         {
             GroupCounting.Continuous => pack.Groups.Select(
                 (name, index) => new Group(
-                    index.ToId(),
+                    (index + 1).ToId(),
                     name,
                     1 + (index * 30),
                     (index + 1) * 30)
                 ).ToArray(),
             GroupCounting.Reset => pack.Groups.Select(
                 (name, index) => new Group(
-                    index.ToId(),
+                    (index + 1).ToId(),
                     name,
                     1, 30)
                 ).ToArray()

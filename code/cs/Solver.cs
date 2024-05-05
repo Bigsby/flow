@@ -1,23 +1,22 @@
-using System.Numerics;
-using ISolution = System.Collections.Generic.IDictionary<System.Numerics.Complex, int>;
+using System.Collections.ObjectModel;
 
 internal static class Solver
 {
-    record struct ColourState(int Colour, bool Complete, Complex Head, Complex End);
-    record struct Move(Complex Next, Complex Previous, Complex Direction);
+    record struct ColourState(int Colour, bool Complete, Point Head, Point End);
+    record struct Move(Point Next, Point Previous, Point Direction);
     record struct ColourMoves(int Colour, IEnumerable<Move> Moves);
 
-    private static (Complex, Walls)[] DIRECTIONS = [
-        (new Complex(-1, 0), Walls.LEFT),
-        (new Complex(0, -1), Walls.UP),
-        (new Complex(1, 0), Walls.RIGHT),
-        (new Complex(0, 1), Walls.DOWN),
+    private static (Point, Walls)[] DIRECTIONS = [
+        (Point.Left, Walls.LEFT),
+        (Point.Up, Walls.UP),
+        (Point.Right, Walls.RIGHT),
+        (Point.Down, Walls.DOWN),
     ];
 
-    private static Walls GetDirectionWall(Complex direction)
+    private static Walls GetDirectionWall(Point direction)
         => DIRECTIONS.First(d => d.Item1 == direction).Item2;
 
-    public static Walls GetNeighbour(this Puzzle puzzle, Complex position, Complex direction)
+    public static Walls GetNeighbour(this Puzzle puzzle, Point position, Point direction)
     {
         var neighbour = puzzle.NormalizePosition(position + direction);
         if (puzzle.Positions.TryGetValue(neighbour, out var type))
@@ -25,7 +24,7 @@ internal static class Solver
         return 0;
     }
 
-    private static IEnumerable<(Complex Neighbour, Complex Direction)> GetNeighbours(this Puzzle puzzle, Complex position)
+    private static IEnumerable<(Point Neighbour, Point Direction)> GetNeighbours(this Puzzle puzzle, Point position)
     {
         foreach (var (direction, wall) in DIRECTIONS)
         {
@@ -36,7 +35,7 @@ internal static class Solver
         }
     }
 
-    private static bool HasSameColourNeighbour(this Puzzle puzzle, ISolution solution, Complex position, Complex previous, Complex end, int colour)
+    private static bool HasSameColourNeighbour(this Puzzle puzzle, ISolution solution, Point position, Point previous, Point end, int colour)
         => puzzle.GetNeighbours(position)
             .Any(n =>
                 n.Neighbour != previous
@@ -44,7 +43,7 @@ internal static class Solver
                 && solution.ContainsKey(n.Neighbour)
                 && solution[n.Neighbour] == colour);
 
-    private static IEnumerable<Move> GetPossibleMoves(this Puzzle puzzle, ISolution solution, int colour, Complex head, Complex end)
+    private static IEnumerable<Move> GetPossibleMoves(this Puzzle puzzle, ISolution solution, int colour, Point head, Point end)
     {
         var result = new List<Move>();
         foreach (var (neighbour, direction) in puzzle.GetNeighbours(head))
@@ -71,7 +70,7 @@ internal static class Solver
     }
 
     private static ISolution Clone(this ISolution solution)
-        => solution.ToDictionary(pair => pair.Key, pair => pair.Value);
+        => (ISolution)solution.ToDictionary(pair => pair.Key, pair => pair.Value);
 
     private static IList<ColourState> Clone(this IList<ColourState> list)
         => list.Select(c => c with { }).ToList();
@@ -117,10 +116,10 @@ internal static class Solver
         };
     }
 
-    public static Complex NormalizePosition(this Puzzle puzzle, Complex position)
-        => new Complex((position.Real + puzzle.MaxX) % puzzle.MaxX, (position.Imaginary + puzzle.MaxY) % puzzle.MaxY);
+    public static Point NormalizePosition(this Puzzle puzzle, Point position)
+        => new((position.X + puzzle.MaxX) % puzzle.MaxX, (position.Y + puzzle.MaxY) % puzzle.MaxY);
 
-    private static int GetDistanceToSameColour(this Puzzle puzzle, ISolution solution, int colour, Complex position, Complex direction)
+    private static int GetDistanceToSameColour(this Puzzle puzzle, ISolution solution, int colour, Point position, Point direction)
     {
         var distance = 0;
         while (true)
@@ -150,15 +149,15 @@ internal static class Solver
             _ => Walls.NONE
         };
 
-    private static readonly IReadOnlyDictionary<Complex, Complex[]> UTURNDIRECTIONS = new Dictionary<Complex, Complex[]>
+    private static readonly IReadOnlyDictionary<Point, Point[]> UTURNDIRECTIONS = new Dictionary<Point, Point[]>
     {
-        { Complex.One, [Complex.ImaginaryOne, -Complex.ImaginaryOne] },
-        { -Complex.One, [Complex.ImaginaryOne, -Complex.ImaginaryOne] },
-        { Complex.ImaginaryOne, [Complex.One, -Complex.One] },
-        { -Complex.ImaginaryOne, [Complex.One, -Complex.One] },
+        { Point.Right, [Point.Down, Point.Up] },
+        { Point.Left, [Point.Down, Point.Up] },
+        { Point.Down, [Point.Right, Point.Left] },
+        { Point.Up, [Point.Right, Point.Left] },
     };
 
-    private static int GetDistanceToWall(this Puzzle puzzle, ISolution solution, Complex position, Complex direction)
+    private static int GetDistanceToWall(this Puzzle puzzle, ISolution solution, Point position, Point direction)
     {
         var distance = 0;
         while (true)
@@ -248,9 +247,9 @@ internal static class Solver
     private static bool IsSolved(this Puzzle puzzle, ISolution solution, IEnumerable<ColourState> colours)
         =>  puzzle.Positions.Keys.All(solution.ContainsKey) && colours.All(c => c.Complete);
 
-    public static IReadOnlyDictionary<Complex, int> Solve(this Puzzle puzzle)
+    public static ReadOnlyDictionary<Point, int> Solve(this Puzzle puzzle, CancellationToken token)
     {
-        var initialSolution = new Dictionary<Complex, int>();
+        var initialSolution = new Dictionary<Point, int>();
         var initialColours = new List<ColourState>();
         foreach (var (start, end, colour) in puzzle.Colours.Select((c, i) => (c.Item1, c.Item2, i)))
         {
@@ -258,9 +257,9 @@ internal static class Solver
             initialSolution[end] = colour;
             initialColours.Add(new(colour, false, start, end));
         }
-        var queue = new Stack<(ISolution, IList<ColourState>, (int, Complex)[])>();
+        var queue = new Stack<(ISolution, IList<ColourState>, (int, Point)[])>();
         queue.Push((initialSolution, initialColours, []));
-        while (queue.Any())
+        while (queue.Count != 0 && !token.IsCancellationRequested)
         {
             var (currentSolution, currentColours, currentRejects) = queue.Pop();
 

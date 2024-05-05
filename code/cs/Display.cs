@@ -3,32 +3,32 @@ using static System.Console;
 
 internal static class Display
 {
-    private static Complex UPLEFT = new Complex(-.5, -.5);
-    private static Complex UPRIGHT = new Complex(.5, -.5);
-    private static Complex DOWNLEFT = new Complex(-.5, .5);
-    private static Complex DOWNRIGHT = new Complex(.5, .5);
-    private static Complex LEFT = new Complex(-.5, 0);
-    private static Complex RIGHT = new Complex(.5, 0);
-    private static Complex UP = new Complex(0, -.5);
-    private static Complex DOWN = new Complex(0, .5);
+    private static readonly Complex LEFT = new(-.5, 0);
+    private static readonly Complex RIGHT = new(.5, 0);
+    private static readonly Complex UP = new(0, -.5);
+    private static readonly Complex DOWN = new(0, .5);
+    private static readonly Complex UPLEFT = UP + LEFT;
+    private static readonly Complex UPRIGHT = UP + RIGHT;
+    private static readonly Complex DOWNLEFT = DOWN + LEFT;
+    private static readonly Complex DOWNRIGHT = DOWN + RIGHT;
 
-    private static (Complex, Walls)[] VERTICAL = [
+    private static readonly (Point, Walls)[] VERTICAL = [
         (RIGHT, Walls.LEFT),
         (LEFT, Walls.RIGHT)];
 
-    private static (Complex, Walls)[] HORIZONTAL = [
+    private static readonly (Point, Walls)[] HORIZONTAL = [
         (DOWN, Walls.UP),
         (UP, Walls.DOWN)
     ];
 
-    static int[] COLOURS = [196, 21, 28, 226, 208, 51, 206, 88, 90, 255];
+    static readonly int[] COLOURS = [196, 21, 28, 226, 208, 51, 206, 88, 90, 255];
 
     public static string GetColourDot(int colour, bool highlight = false)
         => colour == -1 ?
         "\u25E6"
         :
         $"\x1b[1m\x1b[38;5;{COLOURS[colour]}m{(highlight ? "\x1b[48;5;47m" : "")}\u25CF\x1b[0m";
-    
+
     private static string GetColourRectangle(int colour, bool vertical)
         => colour == -1 ?
         " "
@@ -49,16 +49,16 @@ internal static class Display
 
     public static ConsoleKey Key()
         => ReadKey(true).Key;
-    
+
     public static bool EscapePressed()
         => KeyAvailable && Key() == ConsoleKey.Escape;
-    
+
     private static int progressIndex = 0;
-    private static string[] progressText = [ "|", "/", "-", "\\" ];
+    private static string[] progressText = ["|", "/", "-", "\\"];
 
     public static void StartProgress()
         => Write(progressText[progressIndex]);
-    
+
     public static void TickProgress()
     {
         progressIndex++;
@@ -73,6 +73,7 @@ internal static class Display
         SetCursorPosition(0, CursorTop);
         Write(" ");
         SetCursorPosition(0, CursorTop);
+        WriteLine();
     }
 
     private static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> filter)
@@ -88,9 +89,9 @@ internal static class Display
         return -1;
     }
 
-    private static int GetColour(this Puzzle puzzle, Complex position)
+    private static int GetColour(this Puzzle puzzle, Point position)
         => puzzle.Colours.IndexOf(ends => ends.Item1 == position || ends.Item2 == position);
-    
+
     private static IReadOnlyDictionary<Walls, char> BORDERS = new Dictionary<Walls, char>
     {
         { Walls.NONE, ' ' },
@@ -101,8 +102,7 @@ internal static class Display
         { Walls.LEFT | Walls.RIGHT, '\u2500' },
         { Walls.LEFT | Walls.RIGHT | Walls.DOWN, '\u252C' },
         { Walls.RIGHT | Walls.DOWN, '\u250C' },
-        { Walls.RIGHT | Walls.UP, '\u2514' },
-        { Walls.RIGHT | Walls.UP | Walls.DOWN, '\u251C' },
+        { Walls.RIGHT | Walls.UP, '\u2514' }, { Walls.RIGHT | Walls.UP | Walls.DOWN, '\u251C' },
         { Walls.UP | Walls.DOWN, '\u2502' },
         { Walls.RIGHT, '\u2576' },
         { Walls.LEFT, '\u2574' },
@@ -110,16 +110,18 @@ internal static class Display
         { Walls.DOWN, '\u2577' },
     };
 
-    private static bool HasWall(this Puzzle puzzle, Complex position, Walls wall)
+    private static bool HasWall(this Puzzle puzzle, Point position, Walls wall)
         => puzzle.Positions.TryGetValue(position, out var value) && value.HasFlag(wall);
-    
-    private static bool HasPosition(this Puzzle puzzle, Complex position)
+
+    private static bool HasPosition(this Puzzle puzzle, Point position)
         => puzzle.Positions.ContainsKey(position);
 
 
-    public static void Print(this Puzzle puzzle, IDictionary<Complex, int>? solution = default, Complex? move = default)
+    public static void Print(this Puzzle puzzle, ISolution? solution = default, Point? move = default)
     {
-        Print($"level {puzzle.Name} {puzzle.SubTitle} ({puzzle.Colours.Count()})");
+        if (default == solution)
+            Print($"level {puzzle.Name} {puzzle.SubTitle} ({puzzle.Colours.Count()})");
+
         for (double y = 0; y < puzzle.MaxY * 2 + 1; y++)
         {
             for (double x = 0; x < puzzle.MaxX * 2 + 1; x++)
@@ -144,10 +146,10 @@ internal static class Display
                         var hasRight = puzzle.HasWall(position + DOWNRIGHT, Walls.UP) || puzzle.HasWall(position + UPRIGHT, Walls.DOWN);
                         var hasUp = puzzle.HasWall(position + UPLEFT, Walls.RIGHT) || puzzle.HasWall(position + UPRIGHT, Walls.LEFT);
                         var hasDown = puzzle.HasWall(position + DOWNLEFT, Walls.RIGHT) || puzzle.HasWall(position + DOWNRIGHT, Walls.LEFT);
-                        var lines = 
-                            (hasLeft ? 1 : 0) * (int)Walls.LEFT + 
-                            (hasRight ? 1 : 0) * (int)Walls.RIGHT + 
-                            (hasUp ? 1 : 0) * (int)Walls.UP + 
+                        var lines =
+                            (hasLeft ? 1 : 0) * (int)Walls.LEFT +
+                            (hasRight ? 1 : 0) * (int)Walls.RIGHT +
+                            (hasUp ? 1 : 0) * (int)Walls.UP +
                             (hasDown ? 1 : 0) * (int)Walls.DOWN;
                         c = $"{BORDERS[(Walls)lines]}";
                         // if (hasLeft && (puzzle.HasPosition(position + UPRIGHT) ^ puzzle.HasPosition(position + DOWNRIGHT)))
@@ -158,12 +160,12 @@ internal static class Display
                     if (y % 2 == 1)
                     {
                         foreach (var (direction, wall) in VERTICAL)
-                            if (puzzle.GetNeighbour(position, direction).HasFlag(wall))
+                            if (puzzle.HasWall(position + direction, wall))
                                 c = "\u2502";
                     }
                     else if (x % 2 == 1)
                         foreach (var (direction, wall) in HORIZONTAL)
-                            if (puzzle.GetNeighbour(position, direction).HasFlag(wall))
+                            if (puzzle.HasWall(position + direction, wall))
                             {
                                 c = "\u2500";
                                 padding = "\u2500";
@@ -194,12 +196,12 @@ internal static class Display
         ListObjects(list, selectedIndex);
         while (true)
         {
-            var key =  ReadKey(true);
+            var key = ReadKey(true);
             switch (key.Key)
             {
                 case ConsoleKey.DownArrow or ConsoleKey.J:
                     selectedIndex++;
-                break;
+                    break;
                 case ConsoleKey.UpArrow or ConsoleKey.K:
                     selectedIndex--;
                     break;
@@ -255,28 +257,28 @@ internal static class Display
                         selected -= 5;
                     else
                         selected += 25;
-                break;
+                    break;
                 case ConsoleKey.DownArrow or ConsoleKey.J:
                     if (selected <= end - 5)
                         selected += 5;
                     else
                         selected -= 25;
-                break;
+                    break;
                 case ConsoleKey.LeftArrow or ConsoleKey.H:
                     if (selected % 5 != 1)
                         selected--;
                     else
                         selected += 4;
-                break;
+                    break;
                 case ConsoleKey.RightArrow or ConsoleKey.L:
                     if (selected % 5 != 0)
                         selected++;
                     else
                         selected -= 4;
-                break;
+                    break;
                 case ConsoleKey.Enter:
                     return selected;
-                case ConsoleKey.Escape:
+                case ConsoleKey.Escape or ConsoleKey.Backspace:
                     return -1;
             }
         }
