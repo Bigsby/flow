@@ -31,7 +31,8 @@ internal static class Program
         {
             var puzzle = await Parser.ReadPuzzleJson(input);
             puzzle.Print();
-            var solution = puzzle.Solve();
+            var source = new CancellationTokenSource();
+            var solution = puzzle.Solve(source.Token);
             
             Display.Print("Solution:");
             puzzle.Print(solution.ToDictionary());

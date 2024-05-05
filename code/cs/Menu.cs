@@ -1,6 +1,4 @@
-using System.Collections.Frozen;
-using System.ComponentModel;
-using System.Numerics;
+using System.Diagnostics;
 
 internal static class Menu
 {
@@ -43,36 +41,28 @@ internal static class Menu
                                         $"{puzzleFileName}.json");
                                 var puzzle = await Parser.ReadPuzzleJson(filePath);
                                 puzzle.Print();
-                                var worker = new BackgroundWorker
-                                {
-                                    WorkerSupportsCancellation = true,
-                                    WorkerReportsProgress = false
-                                };
-                                worker.DoWork += (s, e) => e.Result = puzzle.Solve();
-                                worker.RunWorkerCompleted += (s, e) =>
-                                {
-                                    if (!e.Cancelled)
-                                    {
-                                        var solution = e.Result as ISolution;
-                                        puzzle.Print(solution);
-                                    }
-                                };
-                                worker.RunWorkerAsync();
+                                var source = new CancellationTokenSource();
+                                var task = new Task<ISolution>(() => puzzle.Solve(source.Token), source.Token);
+                                var watch = Stopwatch.StartNew();
+                                task.Start();
                                 Display.StartProgress();
-                                while (worker.IsBusy ^ worker.CancellationPending)
-                                    if (Display.EscapePressed() && worker.IsBusy)
-                                    {
-                                        worker.CancelAsync();
-                                        Display.StopProgress();
-                                        Display.Print("Solving cancelled!");
-                                    }
+                                while (!task.IsCompleted)
+                                    if (Display.EscapePressed())
+                                        source.Cancel();
                                     else
                                         Display.TickProgress();
                                 Display.StopProgress();
+                                watch.Stop();
+                                Display.Print($"Time: {(double)watch.ElapsedTicks / 100 / TimeSpan.TicksPerSecond:f7}");
+                                if (task.IsCompletedSuccessfully)
+                                    puzzle.Print(task.Result);
+                                else
+                                    Display.Error("Solving interrupted");
                             }
                             catch (Exception ex)
                             {
                                 Display.Error(ex.Message);
+                                Display.Print(ex.StackTrace ?? "");
                             }
                             Display.Key();
                             puzzleId = Display.SelectPuzzleId(header(), group.Start, group.End);
