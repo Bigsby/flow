@@ -58,7 +58,10 @@ internal static class Menu
                                     watch.Stop();
                                     Display.Print($"Time: {(double)watch.ElapsedTicks / 100 / TimeSpan.TicksPerSecond:f7}");
                                     if (task.IsCompletedSuccessfully)
+                                    {
                                         puzzle.Print(task.Result);
+                                        Display.Print(Parser.SerializeSolution(task.Result));
+                                    }
                                     else
                                         Display.Error("Solving interrupted");
                                 }
