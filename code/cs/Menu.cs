@@ -83,17 +83,6 @@ internal static class Menu
         }
     }
 
-    private static T? SelectItem<T>(string header, T[] items) where T : IdNameRecord
-    {
-        var id = Display.SelectItem(header, items);
-        if (id == "q" || id == "b" || string.IsNullOrEmpty(id))
-            return default;
-        var item = items.Single(i => i.Id == id);
-        if (null == item)
-            throw new ArgumentException($"'{id}' is not known.");
-        return item;
-    }
-
     private static bool TrySelectItem<T>(string header, T[] items, out T? result) where T : IdNameRecord
     {
         var id = Display.SelectItem(header, items);
