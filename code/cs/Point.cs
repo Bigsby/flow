@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Numerics;
 
 public record struct Point(double X, double Y)
@@ -20,5 +19,5 @@ public record struct Point(double X, double Y)
     public override readonly int GetHashCode()
         => ((int)X << 2) ^ (int)Y;
     public override readonly string ToString()
-        => $"{X}, {Y}";
+        => $"{X},{Y}";
 }
