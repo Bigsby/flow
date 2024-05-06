@@ -7,26 +7,22 @@ internal static class Menu
 
     public static async Task SelectGame(Game[] games)
     {
-        var game = SelectItem("Games", games);
         var headerItems = new Stack<string>();
         var header = () => string.Join(" > ", headerItems.Reverse());
-        while (null != game)
+        while (TrySelectItem("Games", games, out var game))
         {
-            headerItems.Push(game.Name);
-            var section = SelectItem(header(), game.Sections);
-            while (null != section)
+            headerItems.Push(game!.Name);
+            while (TrySelectItem(header(), game!.Sections, out var section))
             {
-                headerItems.Push(section.Name);
-                var pack = SelectItem(header(), section.Packs);
-                while (null != pack)
+                headerItems.Push(section!.Name);
+                while (TrySelectItem(header(), section!.Packs, out var pack))
                 {
-                    headerItems.Push(pack.Name);
-                    var group = SelectItem(header(), pack.GetGroups());
-                    while (null != group)
+                    headerItems.Push(pack!.Name);
+                    while (TrySelectItem(header(), pack!.GetGroups(), out var group))
                     {
-                        headerItems.Push(group.Name);
-                        var puzzleId = Display.SelectPuzzleId(header(), group.Start, group.End);
-                        while (puzzleId != -1)
+                        headerItems.Push(group!.Name);
+                        var puzzleId = -1; ;
+                        while ((puzzleId = Display.SelectPuzzleId(header(), group.Start, group.End)) != -1)
                         {
                             try
                             {
@@ -41,23 +37,31 @@ internal static class Menu
                                         $"{puzzleFileName}.json");
                                 var puzzle = await Parser.ReadPuzzleJson(filePath);
                                 puzzle.Print();
-                                var source = new CancellationTokenSource();
-                                var task = new Task<ISolution>(() => puzzle.Solve(source.Token), source.Token);
-                                var watch = Stopwatch.StartNew();
-                                task.Start();
-                                Display.StartProgress();
-                                while (!task.IsCompleted)
-                                    if (Display.EscapePressed())
-                                        source.Cancel();
-                                    else
-                                        Display.TickProgress();
-                                Display.StopProgress();
-                                watch.Stop();
-                                Display.Print($"Time: {(double)watch.ElapsedTicks / 100 / TimeSpan.TicksPerSecond:f7}");
-                                if (task.IsCompletedSuccessfully)
-                                    puzzle.Print(task.Result);
+                                if (default != puzzle.Solution)
+                                {
+                                    Display.Print("Stored solution.");
+                                    puzzle.Print(puzzle.Solution);
+                                }
                                 else
-                                    Display.Error("Solving interrupted");
+                                {
+                                    var source = new CancellationTokenSource();
+                                    var task = new Task<Solution>(() => puzzle.Solve(source.Token), source.Token);
+                                    var watch = Stopwatch.StartNew();
+                                    task.Start();
+                                    Display.StartProgress();
+                                    while (!task.IsCompleted)
+                                        if (Display.EscapePressed())
+                                            source.Cancel();
+                                        else
+                                            Display.TickProgress();
+                                    Display.StopProgress();
+                                    watch.Stop();
+                                    Display.Print($"Time: {(double)watch.ElapsedTicks / 100 / TimeSpan.TicksPerSecond:f7}");
+                                    if (task.IsCompletedSuccessfully)
+                                        puzzle.Print(task.Result);
+                                    else
+                                        Display.Error("Solving interrupted");
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -65,19 +69,14 @@ internal static class Menu
                                 Display.Print(ex.StackTrace ?? "");
                             }
                             Display.Key();
-                            puzzleId = Display.SelectPuzzleId(header(), group.Start, group.End);
                         }
                         headerItems.Pop();
-                        group = SelectItem(header(), pack.GetGroups());
                     }
                     headerItems.Pop();
-                    pack = SelectItem(header(), section.Packs);
                 }
                 headerItems.Pop();
-                section = SelectItem(header(), game.Sections);
             }
             headerItems.Pop();
-            game = SelectItem("Games", games);
         }
     }
 
@@ -90,5 +89,17 @@ internal static class Menu
         if (null == item)
             throw new ArgumentException($"'{id}' is not known.");
         return item;
+    }
+
+    private static bool TrySelectItem<T>(string header, T[] items, out T? result) where T : IdNameRecord
+    {
+        var id = Display.SelectItem(header, items);
+        if (id == "q" || id == "b" || string.IsNullOrEmpty(id))
+        {
+            result = default;
+            return false;
+        }
+        result = items.SingleOrDefault(i => i.Id == id);
+        return default != result;
     }
 }
