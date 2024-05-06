@@ -1,7 +1,20 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 internal static class Parser
 {
+    private static JsonSerializerOptions _jsonOptions = new() 
+    { 
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        WriteIndented = true
+    };
+
+    static Parser()
+    {
+        _jsonOptions.Converters.Add(new PointJsonConverter());
+        _jsonOptions.Converters.Add(new SolutionJsonConverter());
+    }
+
     private record struct PuzzlePosition(string X, string Y, string Type);
 
     private record struct PuzzleColour(int X1, int Y1, int X2, int Y2);
@@ -12,7 +25,11 @@ internal static class Parser
         public string? Subtitle { get; set; }
         public PuzzlePosition[] Positions { get; set; } = [];
         public PuzzleColour[] Colours { get; set; } = [];
+        public Solution? Solution { get; set;}
     }
+
+    public static string SerializeSolution(Solution solution)
+        => JsonSerializer.Serialize(solution, _jsonOptions);
 
     private static (int, int) ReadPositions(string input)
     {
@@ -31,8 +48,6 @@ internal static class Parser
             result |= (Walls)Enum.Parse(typeof(Walls), type.Trim());
         return result;
     }
-
-    private static JsonSerializerOptions _jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
     private async static Task<T?> ParseJsonFile<T>(string filePath)
     {
@@ -71,7 +86,7 @@ internal static class Parser
         return new Puzzle(
             configuration.Name ?? "", 
             configuration.Subtitle ?? "", positions.AsReadOnly(), 
-            colours.ToArray(), (int)maxX, (int)maxY);
+            colours.ToArray(), (int)maxX, (int)maxY, configuration.Solution);
     }
 
     public static async Task<Puzzle> ReadPuzzleJson(string filePath)
@@ -109,4 +124,56 @@ internal static class Parser
                 ).ToArray(),
             _ => throw new NotImplementedException()
         };
+}
+
+public class PointJsonConverter : JsonConverter<Point>
+{
+    public override Point Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var value = reader.GetString()!;
+        var split = value.Split(',');
+        return new(double.Parse(split[0]), double.Parse(split[1]));
+    }
+
+    public override void Write(Utf8JsonWriter writer, Point value, JsonSerializerOptions options)
+        => writer.WriteStringValue($"{value.X},{value.Y}");
+}
+
+public class SolutionJsonConverter : JsonConverter<Solution>
+{
+    private static Point ParsePoint(string value)
+    {
+        var split = value.Split(',');
+        return new(double.Parse(split[0]), double.Parse(split[1]));
+    }
+    public override Solution? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var result = new Solution();
+        if (reader.TokenType != JsonTokenType.StartObject)
+            throw new JsonException($"Token type {reader.TokenType} instead of {nameof(JsonTokenType.StartObject)}");
+        while (reader.Read())
+        {
+            if (reader.TokenType == JsonTokenType.EndObject)
+                return result;
+            
+            if (reader.TokenType != JsonTokenType.PropertyName)
+                throw new JsonException($"Token type {reader.TokenType} instead of {nameof(JsonTokenType.PropertyName)}");
+            var point = ParsePoint(reader.GetString()!);
+            reader.Read();
+            if (reader.TryGetInt32(out var colour))
+                result.Add(point, colour);
+        }
+        return result;
+    }
+
+    public override void Write(Utf8JsonWriter writer, Solution value, JsonSerializerOptions options)
+    {
+        writer.WriteStartObject();
+        foreach (var (point, colour) in value)
+        {
+            writer.WritePropertyName(point.ToString());
+            writer.WriteNumberValue(colour);
+        }
+        writer.WriteEndObject();
+    }
 }
