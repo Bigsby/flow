@@ -117,7 +117,7 @@ internal static class Display
         => puzzle.Positions.ContainsKey(position);
 
 
-    public static void Print(this Puzzle puzzle, ISolution? solution = default, Point? move = default)
+    public static void Print(this Puzzle puzzle, Solution? solution = default, Point? move = default)
     {
         if (default == solution)
             Print($"level {puzzle.Name} {puzzle.SubTitle} ({puzzle.Colours.Count()})");
@@ -152,8 +152,6 @@ internal static class Display
                             (hasUp ? 1 : 0) * (int)Walls.UP +
                             (hasDown ? 1 : 0) * (int)Walls.DOWN;
                         c = $"{BORDERS[(Walls)lines]}";
-                        // if (hasLeft && (puzzle.HasPosition(position + UPRIGHT) ^ puzzle.HasPosition(position + DOWNRIGHT)))
-                        //     padding = " ";
                         if (hasRight && (puzzle.HasPosition(position + UPRIGHT) ^ puzzle.HasPosition(position + DOWNRIGHT)))
                             padding = "\u2500";
                     }
