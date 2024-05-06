@@ -2,7 +2,7 @@ global using ISolution = System.Collections.Generic.IDictionary<Point, int>;
 global using Solution = System.Collections.Generic.Dictionary<Point, int>;
 
 [Flags]
-enum Walls
+public enum Walls
 {
     NONE = 0,
     LEFT = 1 << 0, // 1

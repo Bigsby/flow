@@ -13,23 +13,20 @@ internal static class Parser
     {
         _jsonOptions.Converters.Add(new PointJsonConverter());
         _jsonOptions.Converters.Add(new SolutionJsonConverter());
+        _jsonOptions.Converters.Add(new WallsJsonConverter());
     }
 
-    private record struct PuzzlePosition(string X, string Y, string Type);
+    private record struct PuzzlePosition(string X, string Y, Walls Type);
 
     private record struct PuzzleColour(int X1, int Y1, int X2, int Y2);
 
-    private class PuzzleConfiguration//(string Name, string Subtitle, PuzzlePosition[] Positions, PuzzleColour[] Colours);
-    {
-        public string? Name { get; set; }
-        public string? Subtitle { get; set; }
-        public PuzzlePosition[] Positions { get; set; } = [];
-        public PuzzleColour[] Colours { get; set; } = [];
-        public Solution? Solution { get; set;}
-    }
+    private record PuzzleConfiguration(string Name, string Subtitle, PuzzlePosition[] Positions, PuzzleColour[] Colours, Solution? Solution);
 
     public static string SerializeSolution(Solution solution)
         => JsonSerializer.Serialize(solution, _jsonOptions);
+    
+    public static string SerializePuzzle(Puzzle puzzle)
+        => JsonSerializer.Serialize(puzzle, _jsonOptions);
 
     private static (int, int) ReadPositions(string input)
     {
@@ -39,14 +36,6 @@ internal static class Parser
             return (int.Parse(split[0]), int.Parse(split[1]));
         }
         return (int.Parse(input), int.Parse(input));
-    }
-
-    private static Walls ParseType(string input)
-    {
-        var result = Walls.NONE;
-        foreach (var type in input.Split("|"))
-            result |= (Walls)Enum.Parse(typeof(Walls), type.Trim());
-        return result;
     }
 
     private async static Task<T?> ParseJsonFile<T>(string filePath)
@@ -76,7 +65,7 @@ internal static class Parser
             var (y1, y2) = ReadPositions(position.Y);
             for (var x = x1; x <= x2; x++)
                 for (var y = y1; y <= y2; y++)
-                positions[new Point(x, y)] = ParseType(position.Type);
+                positions[new Point(x, y)] = position.Type;
         }
         foreach (var colour in configuration.Colours)
             colours.Add((new Point(colour.X1, colour.Y1), new Point(colour.X2, colour.Y2)));
@@ -124,6 +113,28 @@ internal static class Parser
                 ).ToArray(),
             _ => throw new NotImplementedException()
         };
+}
+
+public class WallsJsonConverter : JsonConverter<Walls>
+{
+    private static Walls ParseType(string input)
+    {
+        var result = Walls.NONE;
+        foreach (var type in input.Split("|"))
+            result |= (Walls)Enum.Parse(typeof(Walls), type.Trim());
+        return result;
+    }
+
+    public override Walls Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var value = reader.GetString();
+        if (value!.Contains('|'))
+            return ParseType(value);
+        return Enum.Parse<Walls>(value);
+    }
+
+    public override void Write(Utf8JsonWriter writer, Walls value, JsonSerializerOptions options)
+        => writer.WriteStringValue(value.ToString());
 }
 
 public class PointJsonConverter : JsonConverter<Point>
