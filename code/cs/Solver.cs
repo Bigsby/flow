@@ -70,7 +70,7 @@ internal static class Solver
     }
 
     private static ISolution Clone(this ISolution solution)
-        => (ISolution)solution.ToDictionary(pair => pair.Key, pair => pair.Value);
+        => solution.ToDictionary(pair => pair.Key, pair => pair.Value);
 
     private static IList<ColourState> Clone(this IList<ColourState> list)
         => list.Select(c => c with { }).ToList();
@@ -247,9 +247,9 @@ internal static class Solver
     private static bool IsSolved(this Puzzle puzzle, ISolution solution, IEnumerable<ColourState> colours)
         =>  puzzle.Positions.Keys.All(solution.ContainsKey) && colours.All(c => c.Complete);
 
-    public static ReadOnlyDictionary<Point, int> Solve(this Puzzle puzzle, CancellationToken token)
+    public static Solution Solve(this Puzzle puzzle, CancellationToken token)
     {
-        var initialSolution = new Dictionary<Point, int>();
+        var initialSolution = new Solution();
         var initialColours = new List<ColourState>();
         foreach (var (start, end, colour) in puzzle.Colours.Select((c, i) => (c.Item1, c.Item2, i)))
         {
@@ -289,7 +289,7 @@ internal static class Solver
             }
 
             if (puzzle.IsSolved(currentSolution, currentColours))
-                return currentSolution.AsReadOnly();
+                return currentSolution.ToDictionary();
 
             if (mandatoryMovesMade)
             {
