@@ -120,7 +120,7 @@ internal static class Display
     
     private static void PrintSquare(Puzzle puzzle, Solution? solution, Point? move)
     {
-        if (default == solution)
+        if (solution.HasValue)
             Print($"level {puzzle.Name} {puzzle.SubTitle} ({puzzle.Colours.Count()})");
 
         for (double y = 0; y < puzzle.MaxY * 2 + 1; y++)
@@ -136,7 +136,7 @@ internal static class Display
                 {
                     if (puzzle.Positions[position] == Walls.BRIDGE)
                         c = $"{BORDERS[Walls.BRIDGE]}";
-                    else if (solution?.TryGetValue(position, out var colour) ?? false)
+                    else if (solution?.TryGetColour(position, out var colour) ?? false)
                         c = GetColourDot(colour, position == move);
                     else
                         c = GetColourDot(GetColour(puzzle, position));
@@ -171,14 +171,14 @@ internal static class Display
                                 c = "\u2500";
                                 padding = "\u2500";
                             }
-                    if (c == " " && null != solution)
+                    if (c == " " && solution.HasValue)
                     {
-                        if (solution.TryGetValue(puzzle.NormalizePosition(position + LEFT), out var left)
-                            && solution.TryGetValue(puzzle.NormalizePosition(position + RIGHT), out var right)
+                        if ((solution?.TryGetColour(puzzle.NormalizePosition(position + LEFT), out var left) ?? false)
+                            && (solution?.TryGetColour(puzzle.NormalizePosition(position + RIGHT), out var right) ?? false)
                             && left == right)
                             c = GetColourRectangle(left, false);
-                        if (solution.TryGetValue(puzzle.NormalizePosition(position + UP), out var up)
-                            && solution.TryGetValue(puzzle.NormalizePosition(position + DOWN), out var down)
+                        if ((solution?.TryGetColour(puzzle.NormalizePosition(position + UP), out var up) ?? false)
+                            && (solution?.TryGetColour(puzzle.NormalizePosition(position + DOWN), out var down) ?? false)
                             && up == down)
                             c = GetColourRectangle(up, true);
                     }
@@ -188,12 +188,10 @@ internal static class Display
             WriteLine();
         }
     }
-
+    
     private static void PrintHexagonal(Puzzle puzzle, Solution? solution, Point? move)
     {
         Print("Printing hexagonal");
-
-
     }
 
     public static void Print(this Puzzle puzzle, Solution? solution = default, Point? move = default)

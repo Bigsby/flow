@@ -1,6 +1,3 @@
-global using ISolution = System.Collections.Generic.IDictionary<Point, int>;
-global using Solution = System.Collections.Generic.Dictionary<Point, int>;
-
 [Flags]
 public enum Walls
 {

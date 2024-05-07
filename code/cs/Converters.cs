@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-public class PuzzleTypeJsonConverter : JsonConverter<PuzzleType>
+class PuzzleTypeJsonConverter : JsonConverter<PuzzleType>
 {
     public override PuzzleType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         => (PuzzleType)Enum.Parse(typeof(PuzzleType), reader.GetString()!, true);
@@ -10,7 +10,7 @@ public class PuzzleTypeJsonConverter : JsonConverter<PuzzleType>
         => writer.WriteStringValue(value.ToString().ToLower());
 }
 
-public class WallsJsonConverter : JsonConverter<Walls>
+class WallsJsonConverter : JsonConverter<Walls>
 {
     private static Walls ParseType(string input)
     {
@@ -32,54 +32,60 @@ public class WallsJsonConverter : JsonConverter<Walls>
         => writer.WriteStringValue(value.ToString());
 }
 
-public class PointJsonConverter : JsonConverter<Point>
+class PointJsonConverter : JsonConverter<Point>
 {
     public override Point Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var value = reader.GetString()!;
         var split = value.Split(',');
-        return new(double.Parse(split[0]), double.Parse(split[1]));
+        return new(double.Parse(split[0]), double.Parse(split[1]), split.Length == 3 && split[2] == "h");
     }
 
     public override void Write(Utf8JsonWriter writer, Point value, JsonSerializerOptions options)
         => writer.WriteStringValue($"{value.X},{value.Y}");
 }
 
-public class SolutionJsonConverter : JsonConverter<Solution>
+class SolutionJsonConverter : JsonConverter<Solution>
 {
-    private static Point ParsePoint(string value)
+    public override Solution Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var split = value.Split(',');
-        return new(double.Parse(split[0]), double.Parse(split[1]));
-    }
-    public override Solution? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var result = new Solution();
-        if (reader.TokenType != JsonTokenType.StartObject)
-            throw new JsonException($"Token type {reader.TokenType} instead of {nameof(JsonTokenType.StartObject)}");
-        while (reader.Read())
-        {
-            if (reader.TokenType == JsonTokenType.EndObject)
-                return result;
-            
-            if (reader.TokenType != JsonTokenType.PropertyName)
-                throw new JsonException($"Token type {reader.TokenType} instead of {nameof(JsonTokenType.PropertyName)}");
-            var point = ParsePoint(reader.GetString()!);
+        if (reader.TokenType != JsonTokenType.StartArray)
+            throw new JsonException($"{reader.TokenType} not expected for Solution start");
+        var colours = new List<List<Point>>();
+        var colourIndex = -1;
+        reader.Read();
+        do {
+            if (reader.TokenType == JsonTokenType.StartArray)
+            {
+                reader.Read();
+                colourIndex++;
+                colours.Add(new List<Point>());
+                continue;
+            }
+            var point = Point.Parse(reader.GetString()!);
+            colours[colourIndex].Add(point);
             reader.Read();
-            if (reader.TryGetInt32(out var colour))
-                result.Add(point, colour);
-        }
+
+            if (reader.TokenType == JsonTokenType.EndArray)
+                reader.Read();
+        } while (reader.TokenType != JsonTokenType.EndArray);
+        var result = new Solution(colours.Count);
+        foreach (var (colour, index) in colours.Select((c, i) => (c, i)))
+            foreach (var point in colour)
+                result.Add(index, point);
         return result;
     }
 
     public override void Write(Utf8JsonWriter writer, Solution value, JsonSerializerOptions options)
     {
-        writer.WriteStartObject();
-        foreach (var (point, colour) in value)
+        writer.WriteStartArray();
+        foreach (var colourPoints in value.GetColours())
         {
-            writer.WritePropertyName(point.ToString());
-            writer.WriteNumberValue(colour);
+            writer.WriteStartArray();
+            foreach(var point in colourPoints)
+                JsonSerializer.Serialize(writer, point, options);
+            writer.WriteEndArray();
         }
-        writer.WriteEndObject();
+        writer.WriteEndArray();
     }
 }

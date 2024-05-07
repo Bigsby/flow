@@ -1,6 +1,6 @@
 using System.Numerics;
 
-public record struct Point(double X, double Y)
+public record struct Point(double X, double Y, bool Vertical = true)
 {
     public static Point Up = new(0, -1);
     public static Point Down = new(0, 1);
@@ -15,9 +15,19 @@ public record struct Point(double X, double Y)
     // public static explicit operator Complex(Point p) => new(p.X, p.Y);
     public static implicit operator Point(Complex c) => new(c.Real, c.Imaginary);
     public readonly bool Equals(Point other)
-        => other.X == X && other.Y == Y;
+        => other.X == X && other.Y == Y && other.Vertical == Vertical;
     public override readonly int GetHashCode()
-        => ((int)X << 2) ^ (int)Y;
+        => ((int)X << 3) ^ ((int)Y << 2) ^ (Vertical ? 1 : 0);
     public override readonly string ToString()
-        => $"{X},{Y}";
+        => $"{X},{Y}{(!Vertical ? ",h" : "")}";
+    
+    public static Point Parse(string value)
+    {
+        var split = value.Split(',');
+        return new Point(
+            int.Parse(split[0]),
+            int.Parse(split[1]),
+            split.Length == 2 || split[2] != "h"
+        );
+    }
 }

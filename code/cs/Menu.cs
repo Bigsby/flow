@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.Json;
 
 internal static class Menu
 {
@@ -37,9 +38,10 @@ internal static class Menu
                                         $"{puzzleFileName}.json");
                                 var puzzle = await Parser.ReadPuzzleJson(filePath);
                                 puzzle.Print();
-                                if (default != puzzle.Solution)
+                                if (puzzle.Solution.HasValue)
                                 {
                                     Display.Print("Stored solution.");
+                                    Display.Print(JsonSerializer.Serialize(puzzle.Solution));
                                     puzzle.Print(puzzle.Solution);
                                 }
                                 else
@@ -62,7 +64,11 @@ internal static class Menu
                                         puzzle.Print(task.Result);
                                         Display.Print(Parser.SerializeSolution(task.Result));
                                     }
-                                    else
+                                    else if (task.IsFaulted)
+                                    {
+                                        Display.Error(task.Exception.Message);
+                                        Display.Print(task.Exception.StackTrace ?? "");
+                                    } else if (task.IsCanceled)
                                         Display.Error("Solving interrupted");
                                 }
                             }

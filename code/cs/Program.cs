@@ -35,7 +35,7 @@ internal static class Program
             var solution = puzzle.Solve(source.Token);
             
             Display.Print("Solution:");
-            puzzle.Print(solution.ToDictionary());
+            puzzle.Print(solution);
         } 
         catch (FileNotFoundException ex)
         {
