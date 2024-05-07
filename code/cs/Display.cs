@@ -73,7 +73,6 @@ internal static class Display
         SetCursorPosition(0, CursorTop);
         Write(" ");
         SetCursorPosition(0, CursorTop);
-        WriteLine();
     }
 
     private static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> filter)
