@@ -102,12 +102,14 @@ internal static class Display
         { Walls.LEFT | Walls.RIGHT, '\u2500' },
         { Walls.LEFT | Walls.RIGHT | Walls.DOWN, '\u252C' },
         { Walls.RIGHT | Walls.DOWN, '\u250C' },
-        { Walls.RIGHT | Walls.UP, '\u2514' }, { Walls.RIGHT | Walls.UP | Walls.DOWN, '\u251C' },
+        { Walls.RIGHT | Walls.UP, '\u2514' }, 
+        { Walls.RIGHT | Walls.UP | Walls.DOWN, '\u251C' },
         { Walls.UP | Walls.DOWN, '\u2502' },
         { Walls.RIGHT, '\u2576' },
         { Walls.LEFT, '\u2574' },
         { Walls.UP, '\u2575' },
         { Walls.DOWN, '\u2577' },
+        { Walls.BRIDGE, '\u253C' }
     };
 
     private static bool HasWall(this Puzzle puzzle, Point position, Walls wall)
@@ -115,9 +117,8 @@ internal static class Display
 
     private static bool HasPosition(this Puzzle puzzle, Point position)
         => puzzle.Positions.ContainsKey(position);
-
-
-    public static void Print(this Puzzle puzzle, Solution? solution = default, Point? move = default)
+    
+    private static void PrintSquare(Puzzle puzzle, Solution? solution, Point? move)
     {
         if (default == solution)
             Print($"level {puzzle.Name} {puzzle.SubTitle} ({puzzle.Colours.Count()})");
@@ -133,7 +134,9 @@ internal static class Display
                     (y - 1) / 2);
                 if (x % 2 == 1 && y % 2 == 1 && puzzle.Positions.ContainsKey(position)) // position
                 {
-                    if (solution?.TryGetValue(position, out var colour) ?? false)
+                    if (puzzle.Positions[position] == Walls.BRIDGE)
+                        c = $"{BORDERS[Walls.BRIDGE]}";
+                    else if (solution?.TryGetValue(position, out var colour) ?? false)
                         c = GetColourDot(colour, position == move);
                     else
                         c = GetColourDot(GetColour(puzzle, position));
@@ -183,6 +186,26 @@ internal static class Display
                 Write($"{c}{padding}");
             }
             WriteLine();
+        }
+    }
+
+    private static void PrintHexagonal(Puzzle puzzle, Solution? solution, Point? move)
+    {
+        Print("Printing hexagonal");
+
+
+    }
+
+    public static void Print(this Puzzle puzzle, Solution? solution = default, Point? move = default)
+    {
+        switch (puzzle.Type)
+        {
+            case PuzzleType.Square:
+                PrintSquare(puzzle, solution, move);
+                break;
+            case PuzzleType.Hexagonal:
+                PrintHexagonal(puzzle, solution, move);
+                break;
         }
     }
 

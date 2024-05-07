@@ -14,13 +14,20 @@ internal static class Parser
         _jsonOptions.Converters.Add(new PointJsonConverter());
         _jsonOptions.Converters.Add(new SolutionJsonConverter());
         _jsonOptions.Converters.Add(new WallsJsonConverter());
+        _jsonOptions.Converters.Add(new PuzzleTypeJsonConverter());
     }
 
     private record struct PuzzlePosition(string X, string Y, Walls Type);
 
     private record struct PuzzleColour(int X1, int Y1, int X2, int Y2);
 
-    private record PuzzleConfiguration(string Name, string Subtitle, PuzzlePosition[] Positions, PuzzleColour[] Colours, Solution? Solution);
+    private record PuzzleConfiguration(
+        string Name, 
+        string Subtitle, 
+        PuzzlePosition[] Positions, 
+        PuzzleColour[] Colours, 
+        Solution? Solution,
+        PuzzleType? Type = PuzzleType.Square);
 
     public static string SerializeSolution(Solution solution)
         => JsonSerializer.Serialize(solution, _jsonOptions);
@@ -75,7 +82,7 @@ internal static class Parser
         return new Puzzle(
             configuration.Name ?? "", 
             configuration.Subtitle ?? "", positions.AsReadOnly(), 
-            colours.ToArray(), (int)maxX, (int)maxY, configuration.Solution);
+            colours.ToArray(), (int)maxX, (int)maxY, configuration.Solution, configuration.Type);
     }
 
     public static async Task<Puzzle> ReadPuzzleJson(string filePath)
@@ -106,13 +113,22 @@ internal static class Parser
             ,
             GroupCounting.Reset2 => pack.Groups.Select(
                 (name, index) => new Group(
-                    index.ToId(),
+                    (index + 1).ToId(),
                     name,
                     1 + (index % 2 == 1 ? 30 : 0),
                     (index % 2 == 1 ? 1 : 2) * 30)
                 ).ToArray(),
             _ => throw new NotImplementedException()
         };
+}
+
+public class PuzzleTypeJsonConverter : JsonConverter<PuzzleType>
+{
+    public override PuzzleType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        => (PuzzleType)Enum.Parse(typeof(PuzzleType), reader.GetString()!, true);
+
+    public override void Write(Utf8JsonWriter writer, PuzzleType value, JsonSerializerOptions options)
+        => writer.WriteStringValue(value.ToString().ToLower());
 }
 
 public class WallsJsonConverter : JsonConverter<Walls>
