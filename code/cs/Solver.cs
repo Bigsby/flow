@@ -242,7 +242,7 @@ internal static class Solver
     private static bool IsSolved(this Puzzle puzzle, Solution solution, IEnumerable<ColourState> colours)
         =>  puzzle.Positions.Keys.All(solution.Contains) && colours.All(c => c.Complete);
 
-    public static Solution Solve(this Puzzle puzzle, CancellationToken token)
+    public static Solution? Solve(this Puzzle puzzle, CancellationToken token)
     {
         var initialSolution = new Solution(puzzle.Colours.Count());
         var initialColours = new List<ColourState>();
@@ -313,6 +313,7 @@ internal static class Solver
                 }
             }
         }
-        throw new Exception("Solution not found");
+        token.ThrowIfCancellationRequested();
+        return default;
     }
 }

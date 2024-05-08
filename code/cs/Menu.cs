@@ -41,13 +41,12 @@ internal static class Menu
                                 if (puzzle.Solution.HasValue)
                                 {
                                     Display.Print("Stored solution.");
-                                    Display.Print(JsonSerializer.Serialize(puzzle.Solution));
                                     puzzle.Print(puzzle.Solution);
                                 }
                                 else
                                 {
                                     var source = new CancellationTokenSource();
-                                    var task = new Task<Solution>(() => puzzle.Solve(source.Token), source.Token);
+                                    var task = new Task<Solution?>(() => puzzle.Solve(source.Token), source.Token);
                                     var watch = Stopwatch.StartNew();
                                     task.Start();
                                     Display.StartProgress();
@@ -59,17 +58,27 @@ internal static class Menu
                                     Display.StopProgress();
                                     watch.Stop();
                                     Display.Print($"Time: {(double)watch.ElapsedTicks / 100 / TimeSpan.TicksPerSecond:f7}");
-                                    if (task.IsCompletedSuccessfully)
+                                    if (task.IsCanceled)
                                     {
-                                        puzzle.Print(task.Result);
-                                        Display.Print(Parser.SerializeSolution(task.Result));
+                                        Display.Error("Solving interrupted");
                                     }
                                     else if (task.IsFaulted)
                                     {
                                         Display.Error(task.Exception.Message);
                                         Display.Print(task.Exception.StackTrace ?? "");
-                                    } else if (task.IsCanceled)
-                                        Display.Error("Solving interrupted");
+                                        var exception = task.Exception as Exception;
+                                        while (default != exception)
+                                        {
+                                            Display.Error(exception.Message);
+                                            Display.Print(exception.StackTrace ?? "");
+                                            exception = exception.InnerException;
+                                        }
+                                    } 
+                                    else if (task.IsCompletedSuccessfully)
+                                    {
+                                        puzzle.Print(task.Result);
+                                        Display.Print(Parser.SerializeSolution(task.Result!.Value));
+                                    }
                                 }
                             }
                             catch (Exception ex)
