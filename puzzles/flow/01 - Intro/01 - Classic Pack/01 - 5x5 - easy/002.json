@@ -1,4 +1,5 @@
 {
+    "$schema": "../../../../puzzle.schema.json",
     "name": "2",
     "subtitle": "5x5",
     "positions": [

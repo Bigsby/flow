@@ -2,6 +2,8 @@ using System.Text.Json;
 
 internal static class Parser
 {
+    record GamesData(Game[] Games);
+
     private static JsonSerializerOptions _jsonOptions = new() 
     { 
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -55,8 +57,8 @@ internal static class Parser
 
     public static async Task<Game[]?> GetGamesData(string filePath)
     {
-        var data = await ParseJsonFile<Game[]>(filePath);
-        return data;
+        var data = await ParseJsonFile<GamesData>(filePath);
+        return data?.Games;
     }
 
     private static Puzzle FromConfiguration(PuzzleConfiguration? configuration)

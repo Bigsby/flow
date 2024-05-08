@@ -1,0 +1,108 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "title": "Puzzle data specefication",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string",
+            "minLength": 1
+        },
+        "subtitle": {
+            "type": "string"
+        },
+        "positions": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/position"
+            }
+        },
+        "colours": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/colour"
+            }
+        },
+        "solution": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/solution"
+            }
+        }
+    },
+    "required": [
+        "name",
+        "subtitle",
+        "positions",
+        "colours"
+    ],
+    "$defs": {
+        "position": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "x": {
+                    "$ref": "#/definitions/positionCoordinate"
+                },
+                "y": {
+                    "$ref": "#/definitions/positionCoordinate"
+                },
+                "type": {
+                    "$ref": "#/definitions/positionType"
+                }
+            },
+            "required": [
+                "x",
+                "y",
+                "type"
+            ]
+        },
+        "colour": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "x1": {
+                    "type": "integer"
+                },
+                "y1": {
+                    "type": "integer"
+                },
+                "x2": {
+                    "type": "integer"
+                },
+                "y2": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "x1",
+                "y1",
+                "x2",
+                "y2"
+            ]
+        },
+        "solution": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/solutionPosition"
+            }
+        }
+    },
+    "definitions": {
+        "solutionPosition": {
+            "type": "string",
+            "pattern": "^[0-9]+,[0-9]+$"
+        },
+        "positionCoordinate": {
+            "type": "string",
+            "pattern": "^[0-9]+(-[0-9]+)?$"
+        },
+        "positionType": {
+            "type": "string",
+            "pattern": "^NONE$|^(UP|DOWN|LEFT|RIGHT|BRIDGE|UPLEFT|UPRIGHT|DOWNLEFT|DOWNRIGHT)((\\s?(,|\\|)\\s?)(UP|DOWN|LEFT|RIGHT|BRIDGE|UPLEFT|UPRIGHT|DOWNLEFT|DOWNRIGHT))*$"
+        }
+    }
+}
