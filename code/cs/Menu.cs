@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using System.Text.Json;
 
 internal static class Menu
 {
+    private static bool ShowProgress = true;
     private static string DirectoryName(this IdNameRecord item)
         => $"{item.Id} - {item.Name}";
 
@@ -49,13 +49,13 @@ internal static class Menu
                                     var task = new Task<Solution?>(() => puzzle.Solve(source.Token), source.Token);
                                     var watch = Stopwatch.StartNew();
                                     task.Start();
-                                    Display.StartProgress();
+                                    if (ShowProgress) Display.StartProgress();
                                     while (!task.IsCompleted)
                                         if (Display.EscapePressed())
                                             source.Cancel();
-                                        else
+                                        else if (ShowProgress)
                                             Display.TickProgress();
-                                    Display.StopProgress();
+                                    if (ShowProgress) Display.StopProgress();
                                     watch.Stop();
                                     Display.Print($"Time: {(double)watch.ElapsedTicks / 100 / TimeSpan.TicksPerSecond:f7}");
                                     if (task.IsCanceled)
