@@ -1,6 +1,4 @@
-﻿using System.Collections.Frozen;
-
-internal static class Program
+﻿internal static class Program
 {
 
     private static async Task Main(string[] args)
