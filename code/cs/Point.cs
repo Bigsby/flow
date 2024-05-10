@@ -12,7 +12,6 @@ public record struct Point(double X, double Y, bool Vertical = true)
     public static Point operator -(Point a, Point b) => new(a.X - b.X, a.Y - b.Y);
     public static Point operator *(Point a, int factor) => new(a.X * factor, a.Y * factor);
 
-    // public static explicit operator Complex(Point p) => new(p.X, p.Y);
     public static implicit operator Point(Complex c) => new(c.Real, c.Imaginary);
     public readonly bool Equals(Point other)
         => other.X == X && other.Y == Y && other.Vertical == Vertical;
@@ -30,4 +29,10 @@ public record struct Point(double X, double Y, bool Vertical = true)
             split.Length == 2 || split[2] != "h"
         );
     }
+
+    public Point RotateLeft()
+        => new(-Y, X);
+    
+    public Point RotateRight()
+        => new(Y, -X);
 }
