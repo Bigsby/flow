@@ -1,11 +1,12 @@
 internal static class Solver
 {
-    private static bool ShowSteps = false;
     record struct ColourState(int Colour, bool Complete, Point Head, Point End);
     record struct Move(Point Next, Point Previous, Point Direction);
     record struct ColourMoves(int Colour, Move[] Moves);
 
-    private static (Point Direction, Walls Wall)[] DIRECTIONS = [
+    private static readonly bool ShowSteps = false;
+
+    private static readonly (Point Direction, Walls Wall)[] DIRECTIONS = [
         (Point.Left, Walls.LEFT),
         (Point.Up, Walls.UP),
         (Point.Right, Walls.RIGHT),
