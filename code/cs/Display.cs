@@ -119,9 +119,6 @@ internal static class Display
     
     private static void PrintSquare(Puzzle puzzle, Solution? solution, Point? move)
     {
-        if (solution.HasValue)
-            Print($"level {puzzle.Name} {puzzle.SubTitle} ({puzzle.Colours.Count()})");
-
         for (double y = 0; y < puzzle.MaxY * 2 + 1; y++)
         {
             for (double x = 0; x < puzzle.MaxX * 2 + 1; x++)
@@ -195,6 +192,9 @@ internal static class Display
 
     public static void Print(this Puzzle puzzle, Solution? solution = default, Point? move = default)
     {
+        if (!solution.HasValue)
+            Print($"level {puzzle.Name} {puzzle.SubTitle} ({puzzle.Colours.Count()})");
+        
         switch (puzzle.Type)
         {
             case PuzzleType.Square:
@@ -214,8 +214,8 @@ internal static class Display
         ListObjects(list, selectedIndex);
         while (true)
         {
-            var key = ReadKey(true);
-            switch (key.Key)
+            var key = Key();
+            switch (key)
             {
                 case ConsoleKey.DownArrow or ConsoleKey.J:
                     selectedIndex++;
