@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 public record struct Point(double X, double Y, bool Vertical = true)
 {
@@ -26,7 +27,7 @@ public record struct Point(double X, double Y, bool Vertical = true)
         return new Point(
             int.Parse(split[0]),
             int.Parse(split[1]),
-            split.Length == 2 || split[2] != "h"
+            !(split.Length == 3 && split[2] != "h")
         );
     }
 

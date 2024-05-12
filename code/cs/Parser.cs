@@ -18,9 +18,9 @@ internal static class Parser
         _jsonOptions.Converters.Add(new PuzzleTypeJsonConverter());
     }
 
-    private record struct PuzzlePosition(string X, string Y, Walls Type);
+    private record struct PuzzlePosition(string Positions, Walls Type);
 
-    private record struct PuzzleColour(int X1, int Y1, int X2, int Y2);
+    private record struct PuzzleColour(int? X1, int? Y1, int? X2, int? Y2, Point? E1, Point? E2);
 
     private record PuzzleConfiguration(
         string Name, 
@@ -36,7 +36,7 @@ internal static class Parser
     public static string SerializePuzzle(Puzzle puzzle)
         => JsonSerializer.Serialize(puzzle, _jsonOptions);
 
-    private static (int, int) ReadPositions(string input)
+    public static (int Start, int End) ReadPositions(string input)
     {
         if (input.Contains('-'))
         {
@@ -44,6 +44,14 @@ internal static class Parser
             return (int.Parse(split[0]), int.Parse(split[1]));
         }
         return (int.Parse(input), int.Parse(input));
+    }
+
+    public static (int XStart, int XEnd, int YStart, int YEnd) ReadPositionsGroup(string input)
+    {
+        var split = input.Split(',');
+        var xs = ReadPositions(split[0]);
+        var ys = ReadPositions(split[1]);
+        return (xs.Start, xs.End, ys.Start, ys.End);
     }
 
     private async static Task<T?> ParseJsonFile<T>(string filePath)
@@ -69,14 +77,18 @@ internal static class Parser
         var colours = new List<(Point, Point)>();
         foreach (var position in configuration.Positions)
         {
-            var (x1, x2) = ReadPositions(position.X);
-            var (y1, y2) = ReadPositions(position.Y);
-            for (var x = x1; x <= x2; x++)
-                for (var y = y1; y <= y2; y++)
+            var points = ReadPositionsGroup(position.Positions);
+            for (var x = points.XStart; x <= points.XEnd; x++)
+                for (var y = points.YStart; y <= points.YEnd; y++)
                 positions[new Point(x, y)] = position.Type;
         }
         foreach (var colour in configuration.Colours)
-            colours.Add((new Point(colour.X1, colour.Y1), new Point(colour.X2, colour.Y2)));
+        if (colour.X1.HasValue && colour.Y1.HasValue
+            && colour.X2.HasValue && colour.Y2.HasValue)
+            colours.Add((new Point(colour.X1.Value, colour.Y1.Value),
+                        new Point(colour.X2.Value, colour.Y2.Value)));
+        else
+            colours.Add((colour.E1!.Value, colour.E2!.Value));
         var maxX = positions.Keys.Max(p => p.X) + 1;
         var maxY = positions.Keys.Max(p => p.Y) + 1;
 

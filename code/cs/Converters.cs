@@ -35,11 +35,7 @@ class WallsJsonConverter : JsonConverter<Walls>
 class PointJsonConverter : JsonConverter<Point>
 {
     public override Point Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var value = reader.GetString()!;
-        var split = value.Split(',');
-        return new(double.Parse(split[0]), double.Parse(split[1]), split.Length == 3 && split[2] == "h");
-    }
+        => Point.Parse(reader.GetString()!);
 
     public override void Write(Utf8JsonWriter writer, Point value, JsonSerializerOptions options)
         => writer.WriteStringValue($"{value.X},{value.Y}");
@@ -59,11 +55,13 @@ class SolutionJsonConverter : JsonConverter<Solution>
             {
                 reader.Read();
                 colourIndex++;
-                colours.Add(new List<Point>());
+                colours.Add([]);
                 continue;
             }
-            var point = Point.Parse(reader.GetString()!);
-            colours[colourIndex].Add(point);
+            var points = Parser.ReadPositionsGroup(reader.GetString()!);
+            for (var x = points.XStart; x < points.XEnd + 1; x++)
+                for (var y = points.YStart; y < points.YEnd + 1; y++)
+                    colours[colourIndex].Add(new(x, y));
             reader.Read();
 
             if (reader.TokenType == JsonTokenType.EndArray)
