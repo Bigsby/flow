@@ -44,19 +44,15 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "x": {
-                    "$ref": "#/definitions/positionCoordinate"
-                },
-                "y": {
-                    "$ref": "#/definitions/positionCoordinate"
+                "positions": {
+                    "$ref": "#/definitions/positions"
                 },
                 "type": {
                     "$ref": "#/definitions/positionType"
                 }
             },
             "required": [
-                "x",
-                "y",
+                "positions",
                 "type"
             ]
         },
@@ -64,37 +60,33 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "x1": {
-                    "type": "integer"
+                "e1": {
+                    "$ref": "#/definitions/point"
                 },
-                "y1": {
-                    "type": "integer"
-                },
-                "x2": {
-                    "type": "integer"
-                },
-                "y2": {
-                    "type": "integer"
+                "e2": {
+                    "$ref": "#/definitions/point"
                 }
             },
             "required": [
-                "x1",
-                "y1",
-                "x2",
-                "y2"
+                "e1",
+                "e2"
             ]
         },
         "solution": {
             "type": "array",
             "items": {
-                "$ref": "#/definitions/solutionPosition"
+                "$ref": "#/definitions/positions"
             }
         }
     },
     "definitions": {
-        "solutionPosition": {
+        "point": {
             "type": "string",
-            "pattern": "^[0-9]+,[0-9]+$"
+            "pattern": "[0-9]+,[0-9]+"
+        },
+        "positions": {
+            "type": "string",
+            "pattern": "^[0-9]+(-[0-9]+)?,[0-9]+(-[0-9]+)?$"
         },
         "positionCoordinate": {
             "type": "string",
