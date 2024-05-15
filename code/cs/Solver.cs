@@ -237,15 +237,18 @@ internal static class Solver
             initialSolution.Add(colour, end);
             initialColours.Add(new(colour, false, start, end));
         }
-        var queue = new Stack<(Solution, IList<ColourState>, (int, Point)[])>();
+        var queue = new List<(Solution Solution, IList<ColourState> Colours, (int, Point)[] Rejects, int Cost)>();
         var previousSolutions = new List<Solution>
         {
             initialSolution
         };
-        queue.Push((initialSolution, initialColours, []));
+        queue.Add((initialSolution, initialColours, [], 0));
+        var totalPositions = puzzle.Positions.Count;
         while (queue.Count != 0 && !token.IsCancellationRequested)
         {
-            var (currentSolution, currentColours, currentRejects) = queue.Pop();
+            var nextSolution = queue.OrderBy(solution => totalPositions - solution.Solution.Count + solution.Cost).FirstOrDefault();
+            var (currentSolution, currentColours, currentRejects, currentCost) = nextSolution;
+            queue.Remove(nextSolution);
             if (puzzle.IsSolved(currentSolution, currentColours))
                 return currentSolution;
 
@@ -281,7 +284,7 @@ internal static class Solver
 
             if (mandatoryMovesMade)
             {
-                queue.Push((currentSolution, currentColours, currentRejects));
+                queue.Add((currentSolution, currentColours, currentRejects, currentCost));
                 continue;
             }
 
@@ -300,6 +303,7 @@ internal static class Solver
                         continue;
                     }
                     if (!previousSolutions.Any(s => Solution.AreEquals(s, newSolution)))
+                        queue.Add((newSolution, newColours, [.. newRejects], currentCost + 1));
 #if DEBUG
                     else
                         Display.Print("solution already tried");

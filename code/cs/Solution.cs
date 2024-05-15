@@ -24,6 +24,8 @@ readonly struct Solution(int colourCount)
         return false;
     }
 
+    public int Count => _colours.Sum(colour => colour.Count);
+
     public Solution CloneSolution()
     {
         var clone = new Solution(colourCount);
@@ -38,5 +40,8 @@ readonly struct Solution(int colourCount)
     public static bool AreEquals(Solution a, Solution b)
         => a.colourCount != b.colourCount
         &&
-        Enumerable.Range(0, a.colourCount).All(colour => !a._colours[colour].Except(b._colours[colour]).Any() && !b._colours[colour].Except(a._colours[colour]).Any());
+        Enumerable.Range(0, a.colourCount).All(colour => 
+            a._colours[colour].Count == b._colours[colour].Count 
+            && 
+            a._colours[colour].All(point => b.HasColour(point, colour)));
 }
