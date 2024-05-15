@@ -2,7 +2,6 @@ using System.Diagnostics;
 
 internal static class Menu
 {
-    private static bool ShowProgress = true;
     private static string DirectoryName(this IdNameRecord item)
         => $"{item.Id} - {item.Name}";
 
@@ -49,13 +48,17 @@ internal static class Menu
                                     var task = new Task<Solution?>(() => puzzle.Solve(source.Token), source.Token);
                                     var watch = Stopwatch.StartNew();
                                     task.Start();
-                                    if (ShowProgress) Display.StartProgress();
+#if !STEP
+                                    Display.StartProgress();
+#endif
                                     while (!task.IsCompleted)
                                         if (Display.EscapePressed())
                                             source.Cancel();
-                                        else if (ShowProgress)
+#if !STEP
+                                        else
                                             Display.TickProgress();
-                                    if (ShowProgress) Display.StopProgress();
+                                    Display.StopProgress();
+#endif
                                     watch.Stop();
                                     Display.Print($"Time: {(double)watch.ElapsedTicks / 100 / TimeSpan.TicksPerSecond:f7}");
                                     if (task.IsCanceled)

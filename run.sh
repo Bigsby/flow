@@ -1,0 +1,1 @@
+dotnet run --project code/cs -d puzzles/games.json

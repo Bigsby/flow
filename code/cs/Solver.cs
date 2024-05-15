@@ -4,8 +4,6 @@ internal static class Solver
     record struct Move(Point Next, Point Previous, Point Direction);
     record struct ColourMoves(int Colour, Move[] Moves);
 
-    private static readonly bool ShowSteps = false;
-
     private static readonly (Point Direction, Walls Wall)[] DIRECTIONS = [
         (Point.Left, Walls.LEFT),
         (Point.Up, Walls.UP),
@@ -252,14 +250,12 @@ internal static class Solver
                 return currentSolution;
 
             var possibleMoves = puzzle.GetPossibleMoves(currentSolution, currentColours);
-            if (ShowSteps)
-            {
+#if STEP
                 puzzle.Print(currentSolution);
                 foreach(var (colour, moves) in possibleMoves)
                     Display.Print($"{colour}: {string.Join(", ", moves.Select(m => m.ToString()))}");
                 Display.Key();
-            }
-
+#endif
             if (possibleMoves.Any(move => !move.Moves.Any() && !currentColours[move.Colour].Complete))
                 continue;
 
@@ -304,11 +300,15 @@ internal static class Solver
                         continue;
                     }
                     if (!previousSolutions.Any(s => Solution.AreEquals(s, newSolution)))
-                        queue.Push((newSolution, newColours, [.. newRejects]));
+#if DEBUG
                     else
                         Display.Print("solution already tried");
-                    // puzzle.Print(newSolution, move.Next);
-                    // Display.Key();
+#endif
+#if STEP
+                    puzzle.Print(newSolution, move.Next);
+                    if (Display.Key() == ConsoleKey.Escape)
+                        throw new Exception("Step interrupted!");
+#endif
                 }
         }
         token.ThrowIfCancellationRequested();
